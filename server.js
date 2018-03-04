@@ -1,17 +1,26 @@
+const sys = require('sys');
 const http = require('http');
+const router = require('./app/router');
 
-const public = require('./routes/public');
+// const public = require('./routes/public');
 
-const server  = http.createServer(function (req, res) {
-    if (req.url.match(/\.(css|js|png|jpg|jpeg)$/)) {
-        public(req, res);
+// const server  = http.createServer(function (req, res) {
+//     if (req.url.match(/\.(css|js|png|jpg|jpeg)$/)) {
+//         public(req, res);
+//
+//         return;
+//     }
+//
+//
+//     res.writeHead(200, {'Content-Type': 'text/html'});
+//     res.end('Hello World\n');
+// });
 
-        return;
-    }
+const server = http.createServer(function (req, res) {
+    let handler = router.route(req);
 
-
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.end('Hello World\n');
+    handler.process(req, res);
 });
 
-server.listen(8080);
+server.listen(80);
+sys.puts('Server is running');
