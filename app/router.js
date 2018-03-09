@@ -1,6 +1,5 @@
 let handlerFactory = require('./handler');
 let fs = require('fs');
-let sys = require('sys');
 let parser = require('url');
 let handlers = {};
 
@@ -14,6 +13,7 @@ exports.register = function (url, method) {
 
 exports.route = function (req) {
     let url = parser.parse(req.url, true);
+
     let handler = handlers[url.pathname];
 
     if (!handler) {
@@ -26,22 +26,44 @@ exports.route = function (req) {
 exports.missing = function (req) {
     // Try to read the file locally, this is a security hole, yo /../../etc/passwd
     let url = parser.parse(req.url, true);
-    let path = __dirname + "../public" + url.pathname;
+    let path = __dirname + "/../public" + url.pathname;
 
     try {
-        let data = fs.readFileSync(path);
+        let pathChecker = new PathCheck(path);
+
+        let data = fs.readFileSync(pathChecker.check().getPath());
         let mime = req.headers.accepts || 'text/html';
 
         return handlerFactory.createHandler(function (req, res) {
             res.writeHead(200, {'Content-Type': mime});
-            res.write(data);
-            res.close();
+            res.end(data);
         });
     } catch (e) {
         return handlerFactory.createHandler(function (req, res) {
             res.writeHead(404, {'Content-Type': 'text/plain'});
-            res.write("No route registered for " + url.pathname);
-            res.close();
+            res.end("No route registered for " + url.pathname);
         });
     }
 };
+
+class PathCheck {
+    constructor(path) {
+        this._basePath = path;
+        this._path = path;
+    }
+
+    getOriginPath() {
+        return this._basePath;
+    }
+
+    getPath() {
+        return this._path;
+    }
+
+    check() {
+        if (/(\/)$/.test(this._path)) {
+            this._path += 'index.html';
+        }
+        return this;
+    }
+}
