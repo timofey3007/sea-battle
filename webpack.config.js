@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const glob = require('glob');
 const dotenv = require('dotenv');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -11,12 +12,16 @@ module.exports.jsConfig = {
 
     watch: process.env.NODE_ENV === 'development',
 
-    entry: toObject(glob.sync('app/assets/js/*.js')),
+    entry: toObject(glob.sync('app/assets/js/*')),
 
     output: {
         filename: 'app.js',
         path: path.resolve(__dirname, 'public/js'),
         publicPath: '/public'
+    },
+
+    resolve: {
+        alias: {'vue$': 'vue/dist/vue.common.js'}
     },
 
     module: {
@@ -28,6 +33,18 @@ module.exports.jsConfig = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['env']
+                    }
+                }
+            },
+            {
+                test: /\.vue$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {
+                            scss: 'vue-style-loader!css-loader!sass-loader'
+                        }
                     }
                 }
             }
@@ -87,7 +104,12 @@ function toObject(paths) {
 
     paths.forEach(function (pathItem) {
         // you can define entry names mapped to [name] here
-        data[pathItem.split('/').slice(-1)[0]] = path.resolve(__dirname, pathItem);
+        let fullPath = path.resolve(__dirname, pathItem);
+        let stats = fs.statSync(fullPath);
+
+        if (stats.isFile()) {
+            data[pathItem.split('/').slice(-1)[0]] = fullPath;
+        }
     });
 
     return data;
