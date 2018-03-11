@@ -6,9 +6,19 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 
+const webpack = require('webpack');
+const configs = require('./webpack.config');
+
 const app = express();
 
 dotenv.load();
+
+webpack(
+    [configs.jsConfig, configs.cssConfig],
+    (err, stats) => {
+        process.stdout.write(stats.toString() + "\n");
+    }
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -4,3 +4,7 @@
 docker/
 package-lock.json
 /.env
+
+/public
+!/public/favicon.ico
+!/public/img
