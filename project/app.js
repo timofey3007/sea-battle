@@ -6,19 +6,10 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 
-const webpack = require('webpack');
-const configs = require('./webpack.config');
-
 const app = express();
+const routeNavigator = require("./routeNavigator");
 
 dotenv.load();
-
-webpack(
-    [configs.jsConfig, configs.cssConfig],
-    (err, stats) => {
-        process.stdout.write(stats.toString() + "\n");
-    }
-);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,9 +24,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', require('./routes/main'));
-app.use('/game', require('./routes/game'));
-app.use('/users', require('./routes/users'));
+routeNavigator(app);
+// app.use('/', require('./routes/main'));
+// app.use('/game', require('./routes/game'));
+// app.use('/users', require('./routes/users'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

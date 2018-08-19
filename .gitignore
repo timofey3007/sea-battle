@@ -1,10 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
+.vcode
 /node_modules
-docker/
-package-lock.json
-/.env
+/docker
 
-/public
-!/public/favicon.ico
-!/public/img
+.DS_Store
+.env
+
