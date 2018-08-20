@@ -1,10 +1,14 @@
 "use strict";
 
 import Vue from 'vue';
-import VueMaterial from 'vue-material'
+import Vuex from 'vuex';
+import VueMaterial from 'vue-material';
 
+Vue.use(Vuex);
 Vue.use(VueMaterial);
 
+const store = require('./store');
+console.log(process);
 new Vue({
     el: '#test',
 
