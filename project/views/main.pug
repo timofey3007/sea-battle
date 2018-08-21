@@ -1,5 +1,6 @@
 extends layouts/main/layout
 
 block content
-    div(id='test')
-        test
+    div(id='app', v-cloak)
+        app(v-if='state.getters.isLoad')
+        app-loading(v-if='!state.getters.isLoad')

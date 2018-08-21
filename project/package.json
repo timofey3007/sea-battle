@@ -23,11 +23,13 @@
   },
   "homepage": "https://github.com/timofey3007/sea-battle#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "dotenv": "^5.0.1",
     "express": "~4.15.5",
     "glob": "^7.1.2",
+    "mongoose": "^5.2.9",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
     "serve-favicon": "~2.4.5",

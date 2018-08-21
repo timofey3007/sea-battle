@@ -78,6 +78,8 @@
 
 <script>
     export default {
-        name: 'test'
+        name: 'App',
+
+
     }
 </script>

@@ -3,17 +3,32 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueMaterial from 'vue-material';
+import _ from 'lodash';
+
+import {mapGetters} from 'vuex';
 
 Vue.use(Vuex);
 Vue.use(VueMaterial);
 
+window._ = _;
+
 const store = require('./store');
-console.log(process);
+
 new Vue({
-    el: '#test',
+    el: '#app',
+
+    store,
+
+    computed: {
+        ...mapGetters([
+            'isLoad',
+            'translation'
+        ])
+    },
 
     components: {
-        'test': require('./components/test.vue')
+        'app': require('./components/App.vue'),
+        'app-loading': require('./components/AppLoading.vue'),
     }
 
 });

@@ -1,5 +1,6 @@
-module.exports = {
-  main: require("./main"),
-  game: require("./game"),
-  users: require("./users"),
+const express = require('express');
+const router = express.Router();
+
+module.exports = function (app) {
+    app.use('/', router.get('/', require("./main")));
 };
