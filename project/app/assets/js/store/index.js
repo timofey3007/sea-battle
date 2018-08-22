@@ -1,5 +1,7 @@
+import Vue from 'vue';
 import Vuex from 'vuex';
-import _ from 'lodash';
+
+Vue.use(Vuex);
 
 import actions from "./actions";
 import mutations from "./mutations";
@@ -28,8 +30,8 @@ export default new Vuex.Store({
     },
 
     getters: {
-        isLoad: state => {
-            return state.modules
+        appIsLoad: ({modules}) => {
+            return modules
                 .filter(module => !module.loaded)
                 .length === 0;
         },

@@ -1,34 +1,24 @@
 "use strict";
 
 import Vue from 'vue';
-import Vuex from 'vuex';
 import VueMaterial from 'vue-material';
-import _ from 'lodash';
+import lodash from 'lodash';
+import store from './store';
+import router from './routes';
 
-import {mapGetters} from 'vuex';
+window._ = lodash;
 
-Vue.use(Vuex);
 Vue.use(VueMaterial);
-
-window._ = _;
-
-const store = require('./store');
 
 new Vue({
     el: '#app',
 
-    store,
+    router,
 
-    computed: {
-        ...mapGetters([
-            'isLoad',
-            'translation'
-        ])
-    },
+    store,
 
     components: {
         'app': require('./components/App.vue'),
-        'app-loading': require('./components/AppLoading.vue'),
     }
 
 });

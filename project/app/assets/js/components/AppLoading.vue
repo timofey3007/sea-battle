@@ -1,10 +1,8 @@
 <template>
     <div class="page-container">
-        <md-app md-aligment-center-center>
-            <loading
-                    :title="getLoadingTitle()"
-            />
-        </md-app>
+        <loading
+                :title="getLoadingTitle()"
+        />
     </div>
 </template>
 
