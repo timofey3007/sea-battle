@@ -10,6 +10,33 @@
     </div>
 </template>
 
+<script>
+    import {mapGetters, mapActions} from 'vuex';
+
+    export default {
+        name: 'App',
+
+        mounted() {
+            this.$store.dispatch("loadAppContent");
+        },
+
+        computed: {
+            ...mapGetters([
+                'appIsLoad',
+                'translation'
+            ])
+        },
+
+        methods: {
+            ...mapActions([])
+        },
+
+        components: {
+            'app-loading': require('./AppLoading.vue'),
+        }
+    }
+</script>
+
 <style lang="scss" scoped>
     .md-app {
         max-height: 400px;
@@ -22,22 +49,3 @@
         max-width: calc(100vw - 125px);
     }
 </style>
-
-<script>
-    import {mapGetters} from 'vuex';
-
-    export default {
-        name: 'App',
-
-        computed: {
-            ...mapGetters([
-                'appIsLoad',
-                'translation'
-            ])
-        },
-
-        components: {
-            'app-loading': require('./AppLoading.vue'),
-        }
-    }
-</script>

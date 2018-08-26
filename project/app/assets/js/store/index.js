@@ -6,6 +6,10 @@ Vue.use(Vuex);
 import actions from "./actions";
 import mutations from "./mutations";
 
+import {
+    APP_LANG_URL,
+} from "./global";
+
 export default new Vuex.Store({
     state: {
         hasGlobalError: false,
@@ -13,16 +17,19 @@ export default new Vuex.Store({
         modules: [
             {
                 name: 'translations',
+                url: APP_LANG_URL,
                 loaded: false,
                 storage: null,
             },
             {
                 name: 'images',
+                url: null,
                 loaded: false,
                 storage: null,
             },
             {
                 name: 'music',
+                url: null,
                 loaded: false,
                 storage: null,
             },
