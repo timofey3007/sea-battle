@@ -17,7 +17,7 @@
         name: 'App',
 
         mounted() {
-            this.$store.dispatch("loadAppContent");
+            this.$store.dispatch("loadModule", "settings");
         },
 
         computed: {

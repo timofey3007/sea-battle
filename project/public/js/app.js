@@ -61231,7 +61231,8 @@ module.exports = function(module) {
             locale: 'en'
         }));
 
-        /***/ }),
+        /***/
+    }),
 /* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -62938,26 +62939,36 @@ module.exports = function(module) {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 
-        /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+        /* harmony default export */
+        __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     state: {
         hasGlobalError: false,
         locale: "en",
         modules: [{
+            name: 'settings',
+            url: __WEBPACK_IMPORTED_MODULE_4__global__["a" /* APP_CONFIG_URL */],
+            loaded: false,
+            storage: null,
+            callback: function callback(dispatch) {
+                dispatch("loadModule", "translations");
+                dispatch("loadModule", "content");
+                dispatch("enableModule", "settings");
+            }
+        }, {
             name: 'translations',
-            url: __WEBPACK_IMPORTED_MODULE_4__global__["a" /* APP_LANG_URL */],
+            url: __WEBPACK_IMPORTED_MODULE_4__global__["b" /* APP_LANG_URL */],
             loaded: false,
             storage: null
         }, {
-            name: 'images',
-            url: null,
+            name: 'content',
+            url: __WEBPACK_IMPORTED_MODULE_4__global__["c" /* APP_STORAGE_URL */],
             loaded: false,
-            storage: null
-        }, {
-            name: 'music',
-            url: null,
-            loaded: false,
-            storage: null
-        }]
+            storage: null,
+            callback: function callback(dispatch, module) {
+                dispatch("loadContent", module);
+            }
+        }],
+        queue: []
     },
 
     getters: {
@@ -62977,6 +62988,33 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
             }
 
             return null;
+        },
+
+        getModule: function getModule(_ref2) {
+            var modules = _ref2.modules;
+            return function (moduleName) {
+                return _.find(modules, {'name': moduleName});
+            };
+        },
+
+        getQueueItem: function getQueueItem(_ref3) {
+            var queue = _ref3.queue;
+
+            if (!Array.isArray(queue)) {
+                return null;
+            }
+
+            return queue.shift();
+        },
+
+        getQueueCount: function getQueueCount(_ref4) {
+            var queue = _ref4.queue;
+
+            if (!Array.isArray(queue)) {
+                return 0;
+            }
+
+            return queue.length;
         }
     },
 
@@ -63002,31 +63040,83 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    loadAppContent: function loadAppContent(_ref) {
-        var state = _ref.state,
-            commit = _ref.commit,
+            loadModule: function loadModule(_ref, module) {
+                var commit = _ref.commit,
+                    getters = _ref.getters,
             dispatch = _ref.dispatch;
 
-        state.modules.forEach(function (module) {
-            dispatch('loadModule', module);
-        });
-    },
-            loadModule: function loadModule(_ref2, module) {
-                var commit = _ref2.commit;
+                if (typeof module === 'string') {
+                    module = getters.getModule(module);
+                }
 
                 if ((typeof module === "undefined" ? "undefined" : _typeof(module)) !== "object" || !module.url) {
-                    return;
+                    commit('appGlobalFail');
                 }
 
                 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(module.url).then(function (response) {
-                    module.storage = response;
+                    module.storage = response.data;
                     module.loaded = true;
+
+                    if (typeof module.callback === 'function') {
+                        module.loaded = false;
+                        module.callback(dispatch, module);
+                    }
 
                     commit('moduleUpdate', module);
                 }).catch(function (error) {
             return commit('appGlobalFail');
         });
-    }
+            },
+            enableModule: function enableModule(_ref2, moduleName) {
+                var commit = _ref2.commit,
+                    getters = _ref2.getters;
+
+                var module = getters.getModule(moduleName);
+
+                module.loaded = true;
+
+                commit('moduleUpdate', module);
+            },
+            loadContent: function loadContent(_ref3, module) {
+                var commit = _ref3.commit,
+                    getters = _ref3.getters,
+                    dispatch = _ref3.dispatch;
+
+                var files = module.storage;
+
+                if (!Array.isArray(files)) {
+                    commit('appGlobalFail');
+                }
+
+                commit("loadFilesToQueue", files);
+
+                dispatch("_loadFilesRecursive", getters.getQueueCount);
+            },
+            _loadFilesRecursive: function _loadFilesRecursive(_ref4, fullFilesCount) {
+                var commit = _ref4.commit,
+                    getters = _ref4.getters,
+                    dispatch = _ref4.dispatch;
+
+                if (getters.getQueueCount === 0) {
+                    dispatch.enableModule("content");
+                }
+
+                var filePath = getters.getQueueItem;
+
+                if (typeof filePath !== "string") {
+                    return;
+                }
+
+                __WEBPACK_IMPORTED_MODULE_0_axios___default()({
+                    method: 'GET',
+                    url: filePath,
+                    responseType: 'blob'
+                }).then(function (response) {
+                    var file = response.data;
+
+                    console.log('file', file);
+                });
+            }
 });
 
 /***/ }),
@@ -63946,7 +64036,16 @@ module.exports = function spread(callback) {
                     return;
                 }
 
-                state.modules = [].concat(_toConsumableArray(state.modules.splice(moduleIndex, 1, module)));
+                state.modules.splice(moduleIndex, 1);
+
+                state.modules = [].concat(_toConsumableArray(state.modules), [module]);
+            },
+            loadFilesToQueue: function loadFilesToQueue(state, files) {
+                if (!Array.isArray(files)) {
+                    return;
+                }
+
+                state.queue = [].concat(_toConsumableArray(files));
             }
         });
 
@@ -63957,9 +64056,16 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* unused harmony export APP_API_URL */
-        /* unused harmony export APP_CONFIG_URL */
         /* harmony export (binding) */
         __webpack_require__.d(__webpack_exports__, "a", function () {
+            return APP_CONFIG_URL;
+        });
+        /* harmony export (binding) */
+        __webpack_require__.d(__webpack_exports__, "c", function () {
+            return APP_STORAGE_URL;
+        });
+        /* harmony export (binding) */
+        __webpack_require__.d(__webpack_exports__, "b", function () {
             return APP_LANG_URL;
         });
         /* harmony import */
@@ -63969,6 +64075,7 @@ module.exports = function spread(callback) {
 var APP_API_URL = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* BASE_URL */] + "/api/v1";
 
 var APP_CONFIG_URL = APP_API_URL + "/config";
+        var APP_STORAGE_URL = APP_API_URL + "/content";
         var APP_LANG_URL = APP_API_URL + "/lang";
 
 /***/ }),
@@ -67166,7 +67273,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     name: 'App',
 
             mounted: function mounted() {
-                this.$store.dispatch("loadAppContent");
+                this.$store.dispatch("loadModule", "settings");
             },
 
 

@@ -10,8 +10,21 @@ export default {
             return;
         }
 
+        state.modules.splice(moduleIndex, 1);
+
         state.modules = [
-            ...state.modules.splice(moduleIndex, 1, module)
+            ...state.modules,
+            module,
         ];
-    }
+    },
+
+    loadFilesToQueue(state, files) {
+        if (!Array.isArray(files)) {
+            return;
+        }
+
+        state.queue = [
+            ...files
+        ];
+    },
 };

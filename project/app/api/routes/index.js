@@ -6,6 +6,7 @@ const apiPrefix = '/api/v1';
 const apiRoutes = {
     translations: require("./translations"),
     settings: require("./settings"),
+    content: require("./content"),
 };
 
 module.exports = function (app) {
@@ -14,4 +15,7 @@ module.exports = function (app) {
 
     // getting application settings
     app.use(apiPrefix, apiRoutes.settings(router));
+
+    // getting application content files
+    app.use(apiPrefix, apiRoutes.content(router));
 };

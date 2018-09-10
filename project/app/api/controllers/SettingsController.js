@@ -1,7 +1,8 @@
 'use strict';
 
+
 exports.baseConfigs = function (req, res) {
     res.json({
-        status: "cool"
+        version: "0.0.1",
     });
 };
