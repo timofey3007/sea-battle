@@ -1,13 +1,13 @@
 version: "3"
 services:
   nodejs:
-    image: node:10
+    image: keymetrics/pm2:10-stretch
     container_name: nodejs
     restart: always
     ports:
       - 80:${NODE_PORT}
     environment:
-      - PORT=${PORT}
+      - PORT=${NODE_PORT}
       - NODE_ENV=${NODE_ENV}
       - DATABASE_URL=db:27017
       - MONGODB_NAME=${MONGODB_NAME}
@@ -19,7 +19,7 @@ services:
       - ./project:/usr/app:cached
       - ./docker/logs/nodejs:/root/.npm/_logs:delegated
     working_dir: /usr/app
-    command: bash -c "npm install && npm start"
+    command: bash -c "npm install && pm2-runtime start pm2.json"
 
   db:
     image: mongo:4
