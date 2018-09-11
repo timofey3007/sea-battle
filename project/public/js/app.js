@@ -11372,116 +11372,6 @@ module.exports = Vue;
         /***/
     }),
     /* 3 */
-    /***/ (function (module, exports) {
-
-        /* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-        module.exports = function normalizeComponent(
-            rawScriptExports,
-            compiledTemplate,
-            functionalTemplate,
-            injectStyles,
-            scopeId,
-            moduleIdentifier /* server only */
-        ) {
-            var esModule
-            var scriptExports = rawScriptExports = rawScriptExports || {}
-
-            // ES6 modules interop
-            var type = typeof rawScriptExports.default
-            if (type === 'object' || type === 'function') {
-                esModule = rawScriptExports
-                scriptExports = rawScriptExports.default
-            }
-
-            // Vue.extend constructor export interop
-            var options = typeof scriptExports === 'function'
-                ? scriptExports.options
-                : scriptExports
-
-            // render functions
-            if (compiledTemplate) {
-                options.render = compiledTemplate.render
-                options.staticRenderFns = compiledTemplate.staticRenderFns
-                options._compiled = true
-            }
-
-            // functional template
-            if (functionalTemplate) {
-                options.functional = true
-            }
-
-            // scopedId
-            if (scopeId) {
-                options._scopeId = scopeId
-            }
-
-            var hook
-            if (moduleIdentifier) { // server build
-                hook = function (context) {
-                    // 2.3 injection
-                    context =
-                        context || // cached call
-                        (this.$vnode && this.$vnode.ssrContext) || // stateful
-                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-                    // 2.2 with runInNewContext: true
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                        context = __VUE_SSR_CONTEXT__
-                    }
-                    // inject component styles
-                    if (injectStyles) {
-                        injectStyles.call(this, context)
-                    }
-                    // register component module identifier for async chunk inferrence
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier)
-                    }
-                }
-                // used by ssr in case component is cached and beforeCreate
-                // never gets called
-                options._ssrRegister = hook
-            } else if (injectStyles) {
-                hook = injectStyles
-            }
-
-            if (hook) {
-                var functional = options.functional
-                var existing = functional
-                    ? options.render
-                    : options.beforeCreate
-
-                if (!functional) {
-                    // inject component registration as beforeCreate hook
-                    options.beforeCreate = existing
-                        ? [].concat(existing, hook)
-                        : [hook]
-                } else {
-                    // for template-only hot-reload because in that case the render fn doesn't
-                    // go through the normalizer
-                    options._injectStyles = hook
-                    // register for functioal component in vue file
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context)
-                        return existing(h, context)
-                    }
-                }
-            }
-
-            return {
-                esModule: esModule,
-                exports: scriptExports,
-                options: options
-            }
-        }
-
-
-        /***/
-    }),
-    /* 4 */
     /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
         "use strict";
@@ -12492,6 +12382,116 @@ module.exports = Vue;
 
         /***/
     }),
+    /* 4 */
+    /***/ (function (module, exports) {
+
+        /* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+        module.exports = function normalizeComponent(
+            rawScriptExports,
+            compiledTemplate,
+            functionalTemplate,
+            injectStyles,
+            scopeId,
+            moduleIdentifier /* server only */
+        ) {
+            var esModule
+            var scriptExports = rawScriptExports = rawScriptExports || {}
+
+            // ES6 modules interop
+            var type = typeof rawScriptExports.default
+            if (type === 'object' || type === 'function') {
+                esModule = rawScriptExports
+                scriptExports = rawScriptExports.default
+            }
+
+            // Vue.extend constructor export interop
+            var options = typeof scriptExports === 'function'
+                ? scriptExports.options
+                : scriptExports
+
+            // render functions
+            if (compiledTemplate) {
+                options.render = compiledTemplate.render
+                options.staticRenderFns = compiledTemplate.staticRenderFns
+                options._compiled = true
+            }
+
+            // functional template
+            if (functionalTemplate) {
+                options.functional = true
+            }
+
+            // scopedId
+            if (scopeId) {
+                options._scopeId = scopeId
+            }
+
+            var hook
+            if (moduleIdentifier) { // server build
+                hook = function (context) {
+                    // 2.3 injection
+                    context =
+                        context || // cached call
+                        (this.$vnode && this.$vnode.ssrContext) || // stateful
+                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+                    // 2.2 with runInNewContext: true
+                    if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                        context = __VUE_SSR_CONTEXT__
+                    }
+                    // inject component styles
+                    if (injectStyles) {
+                        injectStyles.call(this, context)
+                    }
+                    // register component module identifier for async chunk inferrence
+                    if (context && context._registeredComponents) {
+                        context._registeredComponents.add(moduleIdentifier)
+                    }
+                }
+                // used by ssr in case component is cached and beforeCreate
+                // never gets called
+                options._ssrRegister = hook
+            } else if (injectStyles) {
+                hook = injectStyles
+            }
+
+            if (hook) {
+                var functional = options.functional
+                var existing = functional
+                    ? options.render
+                    : options.beforeCreate
+
+                if (!functional) {
+                    // inject component registration as beforeCreate hook
+                    options.beforeCreate = existing
+                        ? [].concat(existing, hook)
+                        : [hook]
+                } else {
+                    // for template-only hot-reload because in that case the render fn doesn't
+                    // go through the normalizer
+                    options._injectStyles = hook
+                    // register for functioal component in vue file
+                    options.render = function renderWithStyleInjection(h, context) {
+                        hook.call(context)
+                        return existing(h, context)
+                    }
+                }
+            }
+
+            return {
+                esModule: esModule,
+                exports: scriptExports,
+                options: options
+            }
+        }
+
+
+        /***/
+    }),
     /* 5 */
     /***/ (function (module, exports, __webpack_require__) {
 
@@ -12703,7 +12703,7 @@ module.exports = Vue;
             }
         }
 
-        var listToStyles = __webpack_require__(52)
+        var listToStyles = __webpack_require__(53)
 
         /*
 type StyleObject = {
@@ -13377,7 +13377,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
         __webpack_require__(15);
-        module.exports = __webpack_require__(68);
+        module.exports = __webpack_require__(69);
 
 
 /***/ }),
@@ -13400,7 +13400,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         /* harmony import */
         var __WEBPACK_IMPORTED_MODULE_4__store__ = __webpack_require__(23);
         /* harmony import */
-        var __WEBPACK_IMPORTED_MODULE_5__routes__ = __webpack_require__(47);
+        var __WEBPACK_IMPORTED_MODULE_5__routes__ = __webpack_require__(48);
 
 
 
@@ -13424,7 +13424,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     store: __WEBPACK_IMPORTED_MODULE_4__store__["a" /* default */],
 
     components: {
-        'app': __webpack_require__(55)
+        'app': __webpack_require__(56)
     }
 
 });
@@ -62926,18 +62926,22 @@ module.exports = function(module) {
         var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
         /* harmony import */
-        var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(4);
+        var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
         /* harmony import */
         var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(24);
         /* harmony import */
         var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(44);
         /* harmony import */
-        var __WEBPACK_IMPORTED_MODULE_4__global__ = __webpack_require__(45);
+        var __WEBPACK_IMPORTED_MODULE_4__facades_FileStorage__ = __webpack_require__(45);
+        /* harmony import */
+        var __WEBPACK_IMPORTED_MODULE_5__global__ = __webpack_require__(46);
 
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
+
+        var contentStorage = new __WEBPACK_IMPORTED_MODULE_4__facades_FileStorage__["a" /* default */]('file-content');
 
         /* harmony default export */
         __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
@@ -62946,7 +62950,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
         locale: "en",
         modules: [{
             name: 'settings',
-            url: __WEBPACK_IMPORTED_MODULE_4__global__["a" /* APP_CONFIG_URL */],
+            url: __WEBPACK_IMPORTED_MODULE_5__global__["a" /* APP_CONFIG_URL */],
             loaded: false,
             storage: null,
             callback: function callback(dispatch) {
@@ -62956,19 +62960,20 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
             }
         }, {
             name: 'translations',
-            url: __WEBPACK_IMPORTED_MODULE_4__global__["b" /* APP_LANG_URL */],
+            url: __WEBPACK_IMPORTED_MODULE_5__global__["b" /* APP_LANG_URL */],
             loaded: false,
             storage: null
         }, {
             name: 'content',
-            url: __WEBPACK_IMPORTED_MODULE_4__global__["c" /* APP_STORAGE_URL */],
+            url: __WEBPACK_IMPORTED_MODULE_5__global__["c" /* APP_STORAGE_URL */],
             loaded: false,
             storage: null,
             callback: function callback(dispatch, module) {
                 dispatch("loadContent", module);
             }
         }],
-        queue: []
+        queue: [],
+        soundPath: null
     },
 
     getters: {
@@ -63015,6 +63020,15 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
             }
 
             return queue.length;
+        },
+
+        localDatabase: function localDatabase() {
+            return contentStorage;
+        },
+        getSoundPath: function getSoundPath(_ref5) {
+            var soundPath = _ref5.soundPath;
+
+            return soundPath;
         }
     },
 
@@ -63098,7 +63112,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
                     dispatch = _ref4.dispatch;
 
                 if (getters.getQueueCount === 0) {
-                    dispatch.enableModule("content");
+                    dispatch("enableModule", "content");
+
+                    return;
                 }
 
                 var filePath = getters.getQueueItem;
@@ -63112,10 +63128,17 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
                     url: filePath,
                     responseType: 'blob'
                 }).then(function (response) {
-                    var file = response.data;
-
-                    console.log('file', file);
+                    getters.localDatabase.storeBlobFile(response.data, filePath).then(function () {
+                        return dispatch("_loadFilesRecursive", fullFilesCount);
+                    }).catch(function () {
+                        return commit('appGlobalFail');
+                    });
                 });
+            },
+            playMusic: function playMusic(_ref5, sound) {
+                var commit = _ref5.commit;
+
+                commit("saveSound", sound);
             }
 });
 
@@ -64046,6 +64069,9 @@ module.exports = function spread(callback) {
                 }
 
                 state.queue = [].concat(_toConsumableArray(files));
+            },
+            saveSound: function saveSound(state, soundPath) {
+                state.soundPath = soundPath;
             }
         });
 
@@ -64054,7 +64080,126 @@ module.exports = function spread(callback) {
     /* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
+        "use strict";
+
+
+        var _createClass = function () {
+            function defineProperties(target, props) {
+                for (var i = 0; i < props.length; i++) {
+                    var descriptor = props[i];
+                    descriptor.enumerable = descriptor.enumerable || false;
+                    descriptor.configurable = true;
+                    if ("value" in descriptor) descriptor.writable = true;
+                    Object.defineProperty(target, descriptor.key, descriptor);
+                }
+            }
+
+            return function (Constructor, protoProps, staticProps) {
+                if (protoProps) defineProperties(Constructor.prototype, protoProps);
+                if (staticProps) defineProperties(Constructor, staticProps);
+                return Constructor;
+            };
+        }();
+
+        function _classCallCheck(instance, Constructor) {
+            if (!(instance instanceof Constructor)) {
+                throw new TypeError("Cannot call a class as a function");
+            }
+        }
+
+        var FileStorage = function () {
+            function FileStorage(objectStoreName) {
+                _classCallCheck(this, FileStorage);
+
+                this.database = null;
+                this.objectStoreName = objectStoreName;
+                this.dbVersion = 1;
+
+                this._initDatabase();
+            }
+
+            _createClass(FileStorage, [{
+                key: '_initDatabase',
+                value: function _initDatabase() {
+                    var _this = this;
+
+                    var request = indexedDB.open('see-battle-db', this.dbVersion);
+
+                    request.onerror = function (event) {
+                        console.log('event failed', event);
+                    };
+
+                    request.onsuccess = function (event) {
+                        _this.database = event.target.result;
+                    };
+
+                    // For future use. Currently only in latest Firefox versions
+                    request.onupgradeneeded = function (event) {
+                        _this.database = event.target.result;
+
+                        _this.database.createObjectStore(_this.objectStoreName);
+                    };
+                }
+            }, {
+                key: '_getObjectStore',
+                value: function _getObjectStore() {
+                    return this.database.transaction([this.objectStoreName], "readwrite").objectStore(this.objectStoreName);
+                }
+            }, {
+                key: 'getBlobFile',
+                value: function getBlobFile(fileName) {
+                    var _this2 = this;
+
+                    return new Promise(function (resolve, reject) {
+                        var request = _this2._getObjectStore().get(fileName);
+
+                        request.onsuccess = function (event) {
+                            resolve(event.target.result);
+                        };
+                        request.onerror = function (event) {
+                            reject(event);
+                        };
+                    });
+                }
+            }, {
+                key: 'getUrlFromBlob',
+                value: function getUrlFromBlob(blob) {
+                    var URL = URL = window.URL || window.webkitURL;
+
+                    return URL.createObjectURL(blob);
+                }
+            }, {
+                key: 'storeBlobFile',
+                value: function storeBlobFile(file, fileName) {
+                    var _this3 = this;
+
+                    return new Promise(function (resolve, reject) {
+                        var savedFile = _this3._getObjectStore().put(file, fileName);
+
+                        // Put the blob into the database
+                        savedFile.onsuccess = function () {
+                            resolve();
+                        };
+
+                        savedFile.onerror = function () {
+                            reject();
+                        };
+                    });
+                }
+            }]);
+
+            return FileStorage;
+        }();
+
+        /* harmony default export */
+        __webpack_exports__["a"] = (FileStorage);
+
+        /***/
+    }),
+    /* 46 */
+    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+
+        "use strict";
 /* unused harmony export APP_API_URL */
         /* harmony export (binding) */
         __webpack_require__.d(__webpack_exports__, "a", function () {
@@ -64069,17 +64214,17 @@ module.exports = function spread(callback) {
             return APP_LANG_URL;
         });
         /* harmony import */
-        var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__(46);
+        var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__(47);
 
 
-var APP_API_URL = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* BASE_URL */] + "/api/v1";
+        var APP_API_URL = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* BASE_URL */] + "/api/v1";
 
-var APP_CONFIG_URL = APP_API_URL + "/config";
+        var APP_CONFIG_URL = APP_API_URL + "/config";
         var APP_STORAGE_URL = APP_API_URL + "/content";
         var APP_LANG_URL = APP_API_URL + "/lang";
 
-/***/ }),
-    /* 46 */
+        /***/ }),
+    /* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64087,7 +64232,7 @@ var APP_CONFIG_URL = APP_API_URL + "/config";
 var BASE_URL = "http://localhost";
 
 /***/ }),
-/* 47 */
+    /* 48 */
     /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
         "use strict";
@@ -64096,7 +64241,7 @@ var BASE_URL = "http://localhost";
         /* harmony import */
         var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
         /* harmony import */
-        var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(48);
+        var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(49);
 
 
         __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
@@ -64107,13 +64252,13 @@ var BASE_URL = "http://localhost";
 
             routes: [{
                 path: '/',
-                component: __webpack_require__(49)
+                component: __webpack_require__(50)
             }]
         }));
 
         /***/
     }),
-    /* 48 */
+    /* 49 */
     /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
         "use strict";
@@ -66811,19 +66956,20 @@ var BASE_URL = "http://localhost";
 
         /***/
     }),
-    /* 49 */
+    /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-    __webpack_require__(50)
+    __webpack_require__(51)
 }
-var normalizeComponent = __webpack_require__(3)
+
+        var normalizeComponent = __webpack_require__(4)
 /* script */
-        var __vue_script__ = __webpack_require__(53)
+        var __vue_script__ = __webpack_require__(54)
 /* template */
-        var __vue_template__ = __webpack_require__(54)
+        var __vue_template__ = __webpack_require__(55)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -66862,13 +67008,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-    /* 50 */
+    /* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-        var content = __webpack_require__(51);
+        var content = __webpack_require__(52);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -66888,7 +67034,7 @@ if(false) {
 }
 
 /***/ }),
-    /* 51 */
+    /* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
         exports = module.exports = __webpack_require__(6)(false);
@@ -66896,13 +67042,13 @@ if(false) {
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+        exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
-    /* 52 */
+    /* 53 */
 /***/ (function(module, exports) {
 
 /**
@@ -66935,11 +67081,27 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-    /* 53 */
+    /* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+        /* harmony import */
+        var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+        var _extends = Object.assign || function (target) {
+            for (var i = 1; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                    if (Object.prototype.hasOwnProperty.call(source, key)) {
+                        target[key] = source[key];
+                    }
+                }
+            }
+            return target;
+        };
+
+//
+//
 //
 //
 //
@@ -67004,12 +67166,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "Main"
+            name: "Main",
+
+            mounted: function mounted() {
+                var _this = this;
+
+                this.localDatabase.getBlobFile('http://localhost/download/sound/start.mp3').then(function (sound) {
+                    var startSoundUrl = _this.localDatabase.getUrlFromBlob(sound);
+
+                    _this.playMusic(startSoundUrl);
+                });
+            },
+            data: function data() {
+                return {};
+            },
+
+
+            computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['localDatabase', 'translation'])),
+
+            methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])(['playMusic']))
 });
 
 /***/ }),
-    /* 54 */
+    /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -67154,19 +67336,20 @@ if (false) {
 }
 
 /***/ }),
-    /* 55 */
+    /* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-    __webpack_require__(56)
+    __webpack_require__(57)
 }
-var normalizeComponent = __webpack_require__(3)
+
+        var normalizeComponent = __webpack_require__(4)
 /* script */
-        var __vue_script__ = __webpack_require__(58)
+        var __vue_script__ = __webpack_require__(59)
 /* template */
-        var __vue_template__ = __webpack_require__(67)
+        var __vue_template__ = __webpack_require__(68)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -67205,13 +67388,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-    /* 56 */
+    /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-        var content = __webpack_require__(57);
+        var content = __webpack_require__(58);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -67231,7 +67414,7 @@ if(false) {
 }
 
 /***/ }),
-    /* 57 */
+    /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
         exports = module.exports = __webpack_require__(6)(false);
@@ -67245,13 +67428,15 @@ exports.push([module.i, "\n.md-app[data-v-2e942784] {\n  max-height: 400px;\n  b
 
 
 /***/ }),
-    /* 58 */
+    /* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         /* harmony import */
-        var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(4);
+        var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+        /* harmony import */
+        var __WEBPACK_IMPORTED_MODULE_1_vue_audio__ = __webpack_require__(76);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -67266,6 +67451,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -67277,25 +67469,26 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             },
 
 
-            computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['appIsLoad', 'translation'])),
+            computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['appIsLoad', 'translation', 'getSoundPath'])),
 
             methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])([])),
 
     components: {
-        'app-loading': __webpack_require__(59)
+        'app-loading': __webpack_require__(60),
+        'vue-audio': __WEBPACK_IMPORTED_MODULE_1_vue_audio__["a" /* default */]
     }
 });
 
 /***/ }),
-    /* 59 */
+    /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+        var normalizeComponent = __webpack_require__(4)
 /* script */
-        var __vue_script__ = __webpack_require__(60)
+        var __vue_script__ = __webpack_require__(61)
 /* template */
-        var __vue_template__ = __webpack_require__(66)
+        var __vue_template__ = __webpack_require__(67)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -67334,13 +67527,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-    /* 60 */
+    /* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         /* harmony import */
-        var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(4);
+        var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -67373,24 +67566,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
 
     components: {
-        loading: __webpack_require__(61)
+        loading: __webpack_require__(62)
     }
 });
 
 /***/ }),
-    /* 61 */
+    /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-    __webpack_require__(62)
+    __webpack_require__(63)
 }
-var normalizeComponent = __webpack_require__(3)
+
+        var normalizeComponent = __webpack_require__(4)
 /* script */
-        var __vue_script__ = __webpack_require__(64)
+        var __vue_script__ = __webpack_require__(65)
 /* template */
-        var __vue_template__ = __webpack_require__(65)
+        var __vue_template__ = __webpack_require__(66)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -67429,13 +67623,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-    /* 62 */
+    /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-        var content = __webpack_require__(63);
+        var content = __webpack_require__(64);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -67455,7 +67649,7 @@ if(false) {
 }
 
 /***/ }),
-    /* 63 */
+    /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
         exports = module.exports = __webpack_require__(6)(false);
@@ -67469,7 +67663,7 @@ exports.push([module.i, "\n.cssload-preloader[data-v-17cfe6fa] {\n    position: 
 
 
 /***/ }),
-    /* 64 */
+    /* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67492,7 +67686,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-    /* 65 */
+    /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -67522,7 +67716,7 @@ if (false) {
 }
 
 /***/ }),
-    /* 66 */
+    /* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -67547,7 +67741,7 @@ if (false) {
 }
 
 /***/ }),
-    /* 67 */
+    /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -67560,7 +67754,14 @@ var render = function() {
     [
       !_vm.appIsLoad ? _c("app-loading") : _vm._e(),
       _vm._v(" "),
-      _vm.appIsLoad ? _c("router-view") : _vm._e()
+        _vm.appIsLoad ? _c("router-view") : _vm._e(),
+        _vm._v(" "),
+        _c("vue-audio", {
+            directives: [
+                {name: "show", rawName: "v-show", value: false, expression: "false"}
+            ],
+            attrs: {file: _vm.getSoundPath, autoPlay: true}
+        })
     ],
     1
   )
@@ -67576,10 +67777,1045 @@ if (false) {
 }
 
 /***/ }),
-    /* 68 */
+    /* 69 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
-/***/ })
+        /***/
+    }),
+    /* 70 */,
+    /* 71 */,
+    /* 72 */,
+    /* 73 */
+    /***/ (function (module, exports, __webpack_require__) {
+
+        /*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+        var stylesInDom = {};
+
+        var memoize = function (fn) {
+            var memo;
+
+            return function () {
+                if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+                return memo;
+            };
+        };
+
+        var isOldIE = memoize(function () {
+            // Test for IE <= 9 as proposed by Browserhacks
+            // @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+            // Tests for existence of standard globals is to allow style-loader
+            // to operate correctly into non-standard environments
+            // @see https://github.com/webpack-contrib/style-loader/issues/177
+            return window && document && document.all && !window.atob;
+        });
+
+        var getElement = (function (fn) {
+            var memo = {};
+
+            return function (selector) {
+                if (typeof memo[selector] === "undefined") {
+                    memo[selector] = fn.call(this, selector);
+                }
+
+                return memo[selector]
+            };
+        })(function (target) {
+            return document.querySelector(target)
+        });
+
+        var singleton = null;
+        var singletonCounter = 0;
+        var stylesInsertedAtTop = [];
+
+        var fixUrls = __webpack_require__(74);
+
+        module.exports = function (list, options) {
+            if (typeof DEBUG !== "undefined" && DEBUG) {
+                if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+            }
+
+            options = options || {};
+
+            options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+            // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+            // tags it will allow on a page
+            if (!options.singleton) options.singleton = isOldIE();
+
+            // By default, add <style> tags to the <head> element
+            if (!options.insertInto) options.insertInto = "head";
+
+            // By default, add <style> tags to the bottom of the target
+            if (!options.insertAt) options.insertAt = "bottom";
+
+            var styles = listToStyles(list, options);
+
+            addStylesToDom(styles, options);
+
+            return function update(newList) {
+                var mayRemove = [];
+
+                for (var i = 0; i < styles.length; i++) {
+                    var item = styles[i];
+                    var domStyle = stylesInDom[item.id];
+
+                    domStyle.refs--;
+                    mayRemove.push(domStyle);
+                }
+
+                if (newList) {
+                    var newStyles = listToStyles(newList, options);
+                    addStylesToDom(newStyles, options);
+                }
+
+                for (var i = 0; i < mayRemove.length; i++) {
+                    var domStyle = mayRemove[i];
+
+                    if (domStyle.refs === 0) {
+                        for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+                        delete stylesInDom[domStyle.id];
+                    }
+                }
+            };
+        };
+
+        function addStylesToDom(styles, options) {
+            for (var i = 0; i < styles.length; i++) {
+                var item = styles[i];
+                var domStyle = stylesInDom[item.id];
+
+                if (domStyle) {
+                    domStyle.refs++;
+
+                    for (var j = 0; j < domStyle.parts.length; j++) {
+                        domStyle.parts[j](item.parts[j]);
+                    }
+
+                    for (; j < item.parts.length; j++) {
+                        domStyle.parts.push(addStyle(item.parts[j], options));
+                    }
+                } else {
+                    var parts = [];
+
+                    for (var j = 0; j < item.parts.length; j++) {
+                        parts.push(addStyle(item.parts[j], options));
+                    }
+
+                    stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+                }
+            }
+        }
+
+        function listToStyles(list, options) {
+            var styles = [];
+            var newStyles = {};
+
+            for (var i = 0; i < list.length; i++) {
+                var item = list[i];
+                var id = options.base ? item[0] + options.base : item[0];
+                var css = item[1];
+                var media = item[2];
+                var sourceMap = item[3];
+                var part = {css: css, media: media, sourceMap: sourceMap};
+
+                if (!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+                else newStyles[id].parts.push(part);
+            }
+
+            return styles;
+        }
+
+        function insertStyleElement(options, style) {
+            var target = getElement(options.insertInto)
+
+            if (!target) {
+                throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+            }
+
+            var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+            if (options.insertAt === "top") {
+                if (!lastStyleElementInsertedAtTop) {
+                    target.insertBefore(style, target.firstChild);
+                } else if (lastStyleElementInsertedAtTop.nextSibling) {
+                    target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+                } else {
+                    target.appendChild(style);
+                }
+                stylesInsertedAtTop.push(style);
+            } else if (options.insertAt === "bottom") {
+                target.appendChild(style);
+            } else {
+                throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+            }
+        }
+
+        function removeStyleElement(style) {
+            if (style.parentNode === null) return false;
+            style.parentNode.removeChild(style);
+
+            var idx = stylesInsertedAtTop.indexOf(style);
+            if (idx >= 0) {
+                stylesInsertedAtTop.splice(idx, 1);
+            }
+        }
+
+        function createStyleElement(options) {
+            var style = document.createElement("style");
+
+            options.attrs.type = "text/css";
+
+            addAttrs(style, options.attrs);
+            insertStyleElement(options, style);
+
+            return style;
+        }
+
+        function createLinkElement(options) {
+            var link = document.createElement("link");
+
+            options.attrs.type = "text/css";
+            options.attrs.rel = "stylesheet";
+
+            addAttrs(link, options.attrs);
+            insertStyleElement(options, link);
+
+            return link;
+        }
+
+        function addAttrs(el, attrs) {
+            Object.keys(attrs).forEach(function (key) {
+                el.setAttribute(key, attrs[key]);
+            });
+        }
+
+        function addStyle(obj, options) {
+            var style, update, remove, result;
+
+            // If a transform function was defined, run it on the css
+            if (options.transform && obj.css) {
+                result = options.transform(obj.css);
+
+                if (result) {
+                    // If transform returns a value, use that instead of the original css.
+                    // This allows running runtime transformations on the css.
+                    obj.css = result;
+                } else {
+                    // If the transform function returns a falsy value, don't add this css.
+                    // This allows conditional loading of css
+                    return function () {
+                        // noop
+                    };
+                }
+            }
+
+            if (options.singleton) {
+                var styleIndex = singletonCounter++;
+
+                style = singleton || (singleton = createStyleElement(options));
+
+                update = applyToSingletonTag.bind(null, style, styleIndex, false);
+                remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+            } else if (
+                obj.sourceMap &&
+                typeof URL === "function" &&
+                typeof URL.createObjectURL === "function" &&
+                typeof URL.revokeObjectURL === "function" &&
+                typeof Blob === "function" &&
+                typeof btoa === "function"
+            ) {
+                style = createLinkElement(options);
+                update = updateLink.bind(null, style, options);
+                remove = function () {
+                    removeStyleElement(style);
+
+                    if (style.href) URL.revokeObjectURL(style.href);
+                };
+            } else {
+                style = createStyleElement(options);
+                update = applyToTag.bind(null, style);
+                remove = function () {
+                    removeStyleElement(style);
+                };
+            }
+
+            update(obj);
+
+            return function updateStyle(newObj) {
+                if (newObj) {
+                    if (
+                        newObj.css === obj.css &&
+                        newObj.media === obj.media &&
+                        newObj.sourceMap === obj.sourceMap
+                    ) {
+                        return;
+                    }
+
+                    update(obj = newObj);
+                } else {
+                    remove();
+                }
+            };
+        }
+
+        var replaceText = (function () {
+            var textStore = [];
+
+            return function (index, replacement) {
+                textStore[index] = replacement;
+
+                return textStore.filter(Boolean).join('\n');
+            };
+        })();
+
+        function applyToSingletonTag(style, index, remove, obj) {
+            var css = remove ? "" : obj.css;
+
+            if (style.styleSheet) {
+                style.styleSheet.cssText = replaceText(index, css);
+            } else {
+                var cssNode = document.createTextNode(css);
+                var childNodes = style.childNodes;
+
+                if (childNodes[index]) style.removeChild(childNodes[index]);
+
+                if (childNodes.length) {
+                    style.insertBefore(cssNode, childNodes[index]);
+                } else {
+                    style.appendChild(cssNode);
+                }
+            }
+        }
+
+        function applyToTag(style, obj) {
+            var css = obj.css;
+            var media = obj.media;
+
+            if (media) {
+                style.setAttribute("media", media)
+            }
+
+            if (style.styleSheet) {
+                style.styleSheet.cssText = css;
+            } else {
+                while (style.firstChild) {
+                    style.removeChild(style.firstChild);
+                }
+
+                style.appendChild(document.createTextNode(css));
+            }
+        }
+
+        function updateLink(link, options, obj) {
+            var css = obj.css;
+            var sourceMap = obj.sourceMap;
+
+            /*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+            var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+            if (options.convertToAbsoluteUrls || autoFixUrls) {
+                css = fixUrls(css);
+            }
+
+            if (sourceMap) {
+                // http://stackoverflow.com/a/26603875
+                css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+            }
+
+            var blob = new Blob([css], {type: "text/css"});
+
+            var oldSrc = link.href;
+
+            link.href = URL.createObjectURL(blob);
+
+            if (oldSrc) URL.revokeObjectURL(oldSrc);
+        }
+
+
+        /***/
+    }),
+    /* 74 */
+    /***/ (function (module, exports) {
+
+
+        /**
+         * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+         * embed the css on the page. This breaks all relative urls because now they are relative to a
+         * bundle instead of the current page.
+         *
+         * One solution is to only use full urls, but that may be impossible.
+         *
+         * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+         *
+         * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+         *
+         */
+
+        module.exports = function (css) {
+            // get current location
+            var location = typeof window !== "undefined" && window.location;
+
+            if (!location) {
+                throw new Error("fixUrls requires window.location");
+            }
+
+            // blank or null?
+            if (!css || typeof css !== "string") {
+                return css;
+            }
+
+            var baseUrl = location.protocol + "//" + location.host;
+            var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+            // convert each url(...)
+            /*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+            var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (fullMatch, origUrl) {
+                // strip quotes (if they exist)
+                var unquotedOrigUrl = origUrl
+                    .trim()
+                    .replace(/^"(.*)"$/, function (o, $1) {
+                        return $1;
+                    })
+                    .replace(/^'(.*)'$/, function (o, $1) {
+                        return $1;
+                    });
+
+                // already a full url? no change
+                if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+                    return fullMatch;
+                }
+
+                // convert the url to a full url
+                var newUrl;
+
+                if (unquotedOrigUrl.indexOf("//") === 0) {
+                    //TODO: should we add protocol?
+                    newUrl = unquotedOrigUrl;
+                } else if (unquotedOrigUrl.indexOf("/") === 0) {
+                    // path should be relative to the base url
+                    newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+                } else {
+                    // path should be relative to current directory
+                    newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+                }
+
+                // send back the fixed url(...)
+                return "url(" + JSON.stringify(newUrl) + ")";
+            });
+
+            // send back the fixed css
+            return fixedCss;
+        };
+
+
+        /***/
+    }),
+    /* 75 */
+    /***/ (function (module, exports) {
+
+        module.exports = "/fonts/vendor/vue-audio/src/icomoon.eot?37fb801567a93e3ce5ddcef32cffe562";
+
+        /***/
+    }),
+    /* 76 */
+    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+
+        "use strict";
+        /* harmony import */
+        var __WEBPACK_IMPORTED_MODULE_0__src_style_css__ = __webpack_require__(77);
+        /* harmony import */
+        var __WEBPACK_IMPORTED_MODULE_0__src_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_style_css__);
+        /* harmony import */
+        var __WEBPACK_IMPORTED_MODULE_1__src_VueAudio_vue__ = __webpack_require__(83);
+        /* harmony import */
+        var __WEBPACK_IMPORTED_MODULE_1__src_VueAudio_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__src_VueAudio_vue__);
+        /* unused harmony reexport VueAudio */
+
+
+        /* harmony default export */
+        __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_1__src_VueAudio_vue___default.a);
+
+
+        /***/
+    }),
+    /* 77 */
+    /***/ (function (module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+        var content = __webpack_require__(78);
+        if (typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+        var transform;
+
+        var options = {}
+        options.transform = transform
+// add the styles to the DOM
+        var update = __webpack_require__(73)(content, options);
+        if (content.locals) module.exports = content.locals;
+// Hot Module Replacement
+        if (false) {
+            // When the styles change, update the <style> tags
+            if (!content.locals) {
+                module.hot.accept("!!../../css-loader/index.js!./style.css", function () {
+                    var newContent = require("!!../../css-loader/index.js!./style.css");
+                    if (typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+                    update(newContent);
+                });
+            }
+            // When the module is disposed, remove the <style> tags
+            module.hot.dispose(function () {
+                update();
+            });
+        }
+
+        /***/
+    }),
+    /* 78 */
+    /***/ (function (module, exports, __webpack_require__) {
+
+        var escape = __webpack_require__(79);
+        exports = module.exports = __webpack_require__(6)(false);
+// imports
+
+
+// module
+        exports.push([module.i, "@font-face {\n  font-family: 'icomoon';\n  src:  url(" + escape(__webpack_require__(75)) + ");\n  src:  url(" + escape(__webpack_require__(75)) + "#iefix) format('embedded-opentype'),\n    url(" + escape(__webpack_require__(80)) + ") format('truetype'),\n    url(" + escape(__webpack_require__(81)) + ") format('woff'),\n    url(" + escape(__webpack_require__(82)) + "#icomoon) format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n\n[class^=\"icon-\"], [class*=\" icon-\"] {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'icomoon' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n\n.icon-download:before {\n  content: \"\\E960\";\n}\n.icon-play3:before {\n  content: \"\\EA1C\";\n}\n.icon-pause2:before {\n  content: \"\\EA1D\";\n}\n.icon-stop2:before {\n  content: \"\\EA1E\";\n}\n.icon-volume-high:before {\n  content: \"\\EA26\";\n}\n.icon-volume-mute2:before {\n  content: \"\\EA2A\";\n}\n.icon-paragraph-justify:before {\n  content: \"\\EA7A\";\n}\n.icon-spinner11:before {\n  content: \"\\E984\";\n}\n\n.icon-spinner10:before {\n  content: \"\\E983\";\n}\n", ""]);
+
+// exports
+
+
+        /***/
+    }),
+    /* 79 */
+    /***/ (function (module, exports) {
+
+        module.exports = function escape(url) {
+            if (typeof url !== 'string') {
+                return url
+            }
+            // If url is already wrapped in quotes, remove them
+            if (/^['"].*['"]$/.test(url)) {
+                url = url.slice(1, -1);
+            }
+            // Should url be wrapped?
+            // See https://drafts.csswg.org/css-values-3/#urls
+            if (/["'() \t\n]/.test(url)) {
+                return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
+            }
+
+            return url
+        }
+
+
+        /***/
+    }),
+    /* 80 */
+    /***/ (function (module, exports) {
+
+        module.exports = "/fonts/vendor/vue-audio/src/icomoon.ttf?27f6446ea2e920f56b458ff34016dda5";
+
+        /***/
+    }),
+    /* 81 */
+    /***/ (function (module, exports) {
+
+        module.exports = "/fonts/vendor/vue-audio/src/icomoon.woff?b9c82df53f2fe0b5b368a78324d5d908";
+
+        /***/
+    }),
+    /* 82 */
+    /***/ (function (module, exports) {
+
+        module.exports = "/fonts/vendor/vue-audio/src/icomoon.svg?7083b8c447fec0ed84d30356bd7a9e50";
+
+        /***/
+    }),
+    /* 83 */
+    /***/ (function (module, exports, __webpack_require__) {
+
+        var disposed = false
+
+        function injectStyle(ssrContext) {
+            if (disposed) return
+            __webpack_require__(84)
+        }
+
+        var normalizeComponent = __webpack_require__(4)
+        /* script */
+        var __vue_script__ = __webpack_require__(86)
+        /* template */
+        var __vue_template__ = __webpack_require__(87)
+        /* template functional */
+        var __vue_template_functional__ = false
+        /* styles */
+        var __vue_styles__ = injectStyle
+        /* scopeId */
+        var __vue_scopeId__ = "data-v-4d4f1e62"
+        /* moduleIdentifier (server only) */
+        var __vue_module_identifier__ = null
+        var Component = normalizeComponent(
+            __vue_script__,
+            __vue_template__,
+            __vue_template_functional__,
+            __vue_styles__,
+            __vue_scopeId__,
+            __vue_module_identifier__
+        )
+        Component.options.__file = "node_modules/vue-audio/src/VueAudio.vue"
+
+        /* hot reload */
+        if (false) {
+            (function () {
+                var hotAPI = require("vue-hot-reload-api")
+                hotAPI.install(require("vue"), false)
+                if (!hotAPI.compatible) return
+                module.hot.accept()
+                if (!module.hot.data) {
+                    hotAPI.createRecord("data-v-4d4f1e62", Component.options)
+                } else {
+                    hotAPI.reload("data-v-4d4f1e62", Component.options)
+                }
+                module.hot.dispose(function (data) {
+                    disposed = true
+                })
+            })()
+        }
+
+        module.exports = Component.exports
+
+
+        /***/
+    }),
+    /* 84 */
+    /***/ (function (module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+        var content = __webpack_require__(85);
+        if (typeof content === 'string') content = [[module.i, content, '']];
+        if (content.locals) module.exports = content.locals;
+// add the styles to the DOM
+        var update = __webpack_require__(7)("6f71237c", content, false, {});
+// Hot Module Replacement
+        if (false) {
+            // When the styles change, update the <style> tags
+            if (!content.locals) {
+                module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4d4f1e62\",\"scoped\":true,\"hasInlineConfig\":true}!../../sass-loader/lib/loader.js!../../vue-loader/lib/selector.js?type=styles&index=0!./VueAudio.vue", function () {
+                    var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4d4f1e62\",\"scoped\":true,\"hasInlineConfig\":true}!../../sass-loader/lib/loader.js!../../vue-loader/lib/selector.js?type=styles&index=0!./VueAudio.vue");
+                    if (typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+                    update(newContent);
+                });
+            }
+            // When the module is disposed, remove the <style> tags
+            module.hot.dispose(function () {
+                update();
+            });
+        }
+
+        /***/
+    }),
+    /* 85 */
+    /***/ (function (module, exports, __webpack_require__) {
+
+        exports = module.exports = __webpack_require__(6)(false);
+// imports
+
+
+// module
+        exports.push([module.i, "\n.vue-sound-wrapper .vue-sound__player[data-v-4d4f1e62] {\n  height: 30px;\n  line-height: 30px;\n}\n.vue-sound-wrapper .vue-sound__player a[data-v-4d4f1e62] {\n    cursor: pointer;\n    display: inline-block;\n    vertical-align: middle;\n}\n.vue-sound-wrapper .vue-sound__player .vue-sound__extern-wrapper[data-v-4d4f1e62] {\n    display: inline-block;\n    margin-left: 10px;\n}\n.vue-sound-wrapper .vue-sound__player .vue-sound__extern-wrapper > a[data-v-4d4f1e62] {\n      margin-right: 5px;\n      vertical-align: 0;\n}\n.vue-sound-wrapper .vue-sound__player .vue-sound__extern-wrapper .volume-toggle[data-v-4d4f1e62] {\n      position: relative;\n}\n.vue-sound-wrapper .vue-sound__player .vue-sound__extern-wrapper .volume-toggle .volume-slider[data-v-4d4f1e62] {\n        cursor: pointer;\n        position: absolute;\n        top: 0;\n        width: 80px;\n        left: 24px;\n}\n.vue-sound-wrapper .vue-sound__player .vue-sound__playback-time-wrapper[data-v-4d4f1e62] {\n    background: transparent;\n    position: relative;\n    width: 250px;\n    display: inline-block;\n    background: #e0dcd7;\n    height: 3px;\n    cursor: pointer;\n    font-size: 14px;\n    vertical-align: middle;\n}\n.vue-sound-wrapper .vue-sound__player .vue-sound__playback-time-wrapper .vue-sound__playback-time-separator[data-v-4d4f1e62]::after {\n      content: ' : ';\n}\n.vue-sound-wrapper .vue-sound__player .vue-sound__playback-time-wrapper .vue-sound__playback-time-indicator[data-v-4d4f1e62] {\n      background: #5099ff;\n      position: absolute;\n      top: 0;\n      left: 0;\n      bottom: 0;\n}\n", ""]);
+
+// exports
+
+
+        /***/
+    }),
+    /* 86 */
+    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+
+        "use strict";
+        Object.defineProperty(__webpack_exports__, "__esModule", {value: true});
+        /* harmony export (binding) */
+        __webpack_require__.d(__webpack_exports__, "baseVolumeValue", function () {
+            return baseVolumeValue;
+        });
+        /* harmony export (binding) */
+        __webpack_require__.d(__webpack_exports__, "prefixCls", function () {
+            return prefixCls;
+        });
+        /* harmony export (binding) */
+        __webpack_require__.d(__webpack_exports__, "generateUUID", function () {
+            return generateUUID;
+        });
+        /* harmony export (binding) */
+        __webpack_require__.d(__webpack_exports__, "convertTimeHHMMSS", function () {
+            return convertTimeHHMMSS;
+        });
+        var baseVolumeValue = 7.5;
+        var audio = void 0,
+            uuid = void 0;
+
+        var prefixCls = 'vue-sound';
+
+        var generateUUID = function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx'.replace(/[xy]/g, function (c) {
+                var v = void 0,
+                    r = void 0;
+                r = Math.random() * 16 | 0;
+                v = c === 'x' ? r : r & 0x3 | 0x8;
+                return v.toString(16);
+            });
+        };
+
+        var convertTimeHHMMSS = function convertTimeHHMMSS(val) {
+            var hhmmss = new Date(val * 1000).toISOString().substr(11, 8);
+            return hhmmss.indexOf('00:') === 0 ? hhmmss.substr(3) : hhmmss;
+        };
+
+        /* harmony default export */
+        __webpack_exports__["default"] = ({
+            name: 'vue-audio',
+            props: {
+                file: {
+                    type: String,
+                    default: null
+                },
+                autoPlay: {
+                    type: Boolean,
+                    default: false
+                },
+                loop: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            computed: {
+                duration: function duration() {
+                    return this.audio ? convertTimeHHMMSS(this.totalDuration) : '';
+                },
+                playerId: function playerId() {
+                    return 'player-' + this.uuid;
+                },
+                classes: function classes() {
+                    return prefixCls;
+                }
+            },
+            data: function data() {
+                return {
+                    isMuted: false,
+                    loaded: false,
+                    playing: false,
+                    paused: true,
+                    progressStyle: '',
+                    currentTime: '00:00',
+                    uuid: '0',
+                    innerLoop: undefined,
+                    audio: undefined,
+                    totalDuration: 0,
+                    hideVolumeSlider: false,
+                    volumeValue: baseVolumeValue
+                };
+            },
+
+            methods: {
+                setPosition: function name(e) {
+                    var tag = e.target;
+                    if (this.paused) return;
+
+                    if (e.target.tagName === 'SPAN') {
+                        return;
+                    }
+                    var pos = tag.getBoundingClientRect();
+                    var seekPos = (e.clientX - pos.left) / pos.width;
+                    this.audio.currentTime = parseInt(this.audio.duration * seekPos);
+                },
+                updateVolume: function updateVolume() {
+                    this.hideVolumeSlider = false;
+                    this.audio.volume = this.volumeValue / 100;
+                    if (this.volumeValue / 100 > 0) {
+                        this.isMuted = this.audio.muted = false;
+                    }
+
+                    if (this.volumeValue / 100 === 0) {
+                        this.isMuted = this.audio.muted = true;
+                    }
+                },
+                toggleVolume: function toggleVolume() {
+                    this.hideVolumeSlider = true;
+                },
+                stop: function stop() {
+                    this.playing = false;
+                    this.paused = true;
+                    this.audio.pause();
+                    this.audio.currentTime = 0;
+                },
+                play: function play() {
+                    if (this.playing && !this.paused) return;
+                    this.paused = false;
+                    this.audio.play();
+                    this.playing = true;
+                },
+                pause: function pause() {
+                    this.paused = !this.paused;
+                    this.paused ? this.audio.pause() : this.audio.play();
+                },
+                changeLoop: function changeLoop() {
+                    this.innerLoop = !this.innerLoop;
+                },
+                download: function download() {
+                    this.stop();
+                    window.open(this.file, 'download');
+                },
+                mute: function mute() {
+                    this.isMuted = !this.isMuted;
+                    this.audio.muted = this.isMuted;
+                    this.volumeValue = this.isMuted ? 0 : 75;
+                },
+                _handleLoaded: function _handleLoaded() {
+                    if (this.audio.readyState >= 2) {
+                        if (this.autoPlay) this.play();
+
+                        this.loaded = true;
+                        this.totalDuration = parseInt(this.audio.duration);
+                    } else {
+                        throw new Error('Failed to load sound file');
+                    }
+                },
+                _handlePlayingUI: function _handlePlayingUI(e) {
+                    var currTime = parseInt(this.audio.currentTime);
+                    var percentage = parseInt(currTime / this.totalDuration * 100);
+                    this.progressStyle = 'width:' + percentage + '%;';
+                    this.currentTime = convertTimeHHMMSS(currTime);
+                },
+                _handlePlayPause: function _handlePlayPause(e) {
+                    if (e.type === 'pause' && this.playing === false) {
+                        this.progressStyle = 'width:0%;';
+                        this.currentTime = '00:00';
+                        this.paused = true;
+                    }
+                },
+                init: function init() {
+                    this.audio.addEventListener('timeupdate', this._handlePlayingUI);
+                    this.audio.addEventListener('loadeddata', this._handleLoaded);
+                    this.audio.addEventListener('pause', this._handlePlayPause);
+                    this.audio.addEventListener('play', this._handlePlayPause);
+                },
+                getAudio: function getAudio() {
+                    return this.$el.querySelectorAll('audio')[0];
+                }
+            },
+            mounted: function mounted() {
+                this.uuid = generateUUID();
+                this.audio = this.getAudio();
+                this.innerLoop = this.loop;
+                this.init();
+            },
+            beforeDestroy: function beforeDestroy() {
+                this.audio.removeEventListener('timeupdate', this._handlePlayingUI);
+                this.audio.removeEventListener('loadeddata', this._handleLoaded);
+                this.audio.removeEventListener('pause', this._handlePlayPause);
+                this.audio.removeEventListener('play', this._handlePlayPause);
+            }
+
+        });
+
+        /***/
+    }),
+    /* 87 */
+    /***/ (function (module, exports, __webpack_require__) {
+
+        var render = function () {
+            var _vm = this
+            var _h = _vm.$createElement
+            var _c = _vm._self._c || _h
+            return _c("div", {class: _vm.classes + "-wrapper"}, [
+                _c("div", {class: _vm.classes + "__player"}, [
+                    _c("a", {
+                        staticClass: "icon-stop2",
+                        attrs: {title: "Stop"},
+                        on: {
+                            click: function ($event) {
+                                _vm.stop()
+                            }
+                        }
+                    }),
+                    _vm._v(" "),
+                    _c("a", {
+                        class: [_vm.paused ? "icon-play3" : "icon-pause2"],
+                        attrs: {title: "Play"},
+                        on: {
+                            click: function ($event) {
+                                _vm.pause()
+                            }
+                        }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                        "div",
+                        {
+                            class: _vm.classes + "__playback-time-wrapper",
+                            attrs: {title: "Time played : Total time"},
+                            on: {click: _vm.setPosition}
+                        },
+                        [
+                            _c("div", {
+                                class: _vm.classes + "__playback-time-indicator",
+                                style: _vm.progressStyle
+                            }),
+                            _vm._v(" "),
+                            _c("span", {class: _vm.classes + "__playback-time-current"}, [
+                                _vm._v(_vm._s(_vm.currentTime))
+                            ]),
+                            _vm._v(" "),
+                            _c("span", {class: _vm.classes + "__playback-time-separator"}),
+                            _vm._v(" "),
+                            _c("span", {class: _vm.classes + "__playback-time-total"}, [
+                                _vm._v(_vm._s(_vm.duration))
+                            ])
+                        ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", {class: _vm.classes + "__extern-wrapper"}, [
+                        _c("a", {
+                            staticClass: "icon-download",
+                            on: {
+                                click: function ($event) {
+                                    _vm.download()
+                                }
+                            }
+                        }),
+                        _vm._v(" "),
+                        _c("a", {
+                            class: [_vm.innerLoop ? "icon-spinner10" : "icon-spinner11"],
+                            on: {
+                                click: function ($event) {
+                                    _vm.changeLoop()
+                                }
+                            }
+                        }),
+                        _vm._v(" "),
+                        _c("a", {
+                            class: [_vm.isMuted ? "icon-volume-mute2" : "icon-volume-high"],
+                            attrs: {title: "Mute"},
+                            on: {
+                                click: function ($event) {
+                                    _vm.mute()
+                                }
+                            }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                            "a",
+                            {
+                                staticClass: "volume-toggle icon-paragraph-justify",
+                                attrs: {title: "Volume"},
+                                on: {
+                                    mouseover: function ($event) {
+                                        _vm.toggleVolume()
+                                    }
+                                }
+                            },
+                            [
+                                _c("input", {
+                                    directives: [
+                                        {
+                                            name: "model",
+                                            rawName: "v-model.lazy",
+                                            value: _vm.volumeValue,
+                                            expression: "volumeValue",
+                                            modifiers: {lazy: true}
+                                        },
+                                        {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: _vm.hideVolumeSlider,
+                                            expression: "hideVolumeSlider"
+                                        }
+                                    ],
+                                    staticClass: "volume-slider",
+                                    attrs: {
+                                        orient: "vertical",
+                                        type: "range",
+                                        min: "0",
+                                        max: "100"
+                                    },
+                                    domProps: {value: _vm.volumeValue},
+                                    on: {
+                                        change: [
+                                            function ($event) {
+                                                _vm.volumeValue = $event.target.value
+                                            },
+                                            function ($event) {
+                                                _vm.updateVolume()
+                                            }
+                                        ]
+                                    }
+                                })
+                            ]
+                        )
+                    ])
+                ]),
+                _vm._v(" "),
+                _c("audio", {
+                    ref: "audiofile",
+                    staticStyle: {display: "none"},
+                    attrs: {
+                        id: _vm.playerId,
+                        loop: _vm.innerLoop,
+                        src: _vm.file,
+                        preload: "auto"
+                    }
+                })
+            ])
+        }
+        var staticRenderFns = []
+        render._withStripped = true
+        module.exports = {render: render, staticRenderFns: staticRenderFns}
+        if (false) {
+            module.hot.accept()
+            if (module.hot.data) {
+                require("vue-hot-reload-api").rerender("data-v-4d4f1e62", module.exports)
+            }
+        }
+
+        /***/ })
 /******/ ]);

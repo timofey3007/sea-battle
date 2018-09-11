@@ -5,12 +5,15 @@ Vue.use(Vuex);
 
 import actions from "./actions";
 import mutations from "./mutations";
+import FileStorage from "../facades/FileStorage";
 
 import {
     APP_LANG_URL,
     APP_STORAGE_URL,
     APP_CONFIG_URL,
 } from "./global";
+
+const contentStorage = new FileStorage('file-content');
 
 export default new Vuex.Store({
     state: {
@@ -45,6 +48,7 @@ export default new Vuex.Store({
             },
         ],
         queue: [],
+        soundPath: null,
     },
 
     getters: {
@@ -82,6 +86,14 @@ export default new Vuex.Store({
             }
 
             return queue.length;
+        },
+
+        localDatabase() {
+            return contentStorage;
+        },
+
+        getSoundPath({soundPath}) {
+            return soundPath;
         }
     },
 

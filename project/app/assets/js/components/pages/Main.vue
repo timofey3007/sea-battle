@@ -58,12 +58,42 @@
                 magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
                 explicabo, neque.</p>
         </md-app-content>
+
+
     </md-app>
 </template>
 
 <script>
+    import {mapGetters, mapActions} from 'vuex';
+
     export default {
-        name: "Main"
+        name: "Main",
+
+        mounted() {
+            this.localDatabase.getBlobFile('http://localhost/download/sound/start.mp3')
+                .then(sound => {
+                    let startSoundUrl = this.localDatabase.getUrlFromBlob(sound);
+
+                    this.playMusic(startSoundUrl)
+                });
+        },
+
+        data() {
+            return {};
+        },
+
+        computed: {
+            ...mapGetters([
+                'localDatabase',
+                'translation',
+            ])
+        },
+
+        methods: {
+            ...mapActions([
+                'playMusic'
+            ])
+        }
     }
 </script>
 

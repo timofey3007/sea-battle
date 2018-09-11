@@ -7,11 +7,18 @@
         <router-view
                 v-if="appIsLoad"
         />
+
+        <vue-audio
+                v-show="false"
+                :file="getSoundPath"
+                :autoPlay="true"
+        />
     </div>
 </template>
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
+    import VueAudio from 'vue-audio';
 
     export default {
         name: 'App',
@@ -23,7 +30,8 @@
         computed: {
             ...mapGetters([
                 'appIsLoad',
-                'translation'
+                'translation',
+                'getSoundPath'
             ])
         },
 
@@ -33,6 +41,7 @@
 
         components: {
             'app-loading': require('./AppLoading.vue'),
+            'vue-audio': VueAudio,
         }
     }
 </script>

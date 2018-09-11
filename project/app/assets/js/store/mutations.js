@@ -27,4 +27,8 @@ export default {
             ...files
         ];
     },
+
+    saveSound(state, soundPath) {
+        state.soundPath = soundPath;
+    },
 };

@@ -47,7 +47,9 @@ export default {
 
     _loadFilesRecursive({commit, getters, dispatch}, fullFilesCount) {
         if (getters.getQueueCount === 0) {
-            dispatch.enableModule("content");
+            dispatch("enableModule", "content");
+
+            return;
         }
 
         let filePath = getters.getQueueItem;
@@ -62,9 +64,14 @@ export default {
             responseType: 'blob',
         })
             .then(response => {
-                let file = response.data;
-
-                console.log('file', file);
+                getters.localDatabase
+                    .storeBlobFile(response.data, filePath)
+                    .then(() => dispatch("_loadFilesRecursive", fullFilesCount))
+                    .catch(() => commit('appGlobalFail'));
             });
+    },
+
+    playMusic({commit}, sound) {
+        commit("saveSound", sound);
     }
 };
