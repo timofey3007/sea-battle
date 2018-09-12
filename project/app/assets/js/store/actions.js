@@ -1,4 +1,5 @@
 import axios from "axios";
+import FilesLoader from "../facades/queue/FilesLoader";
 
 export default {
     loadModule({commit, getters, dispatch}, module) {
@@ -40,38 +41,20 @@ export default {
             commit('appGlobalFail');
         }
 
-        commit("loadFilesToQueue", files);
+        const fileLoader = new FilesLoader(getters.localDatabase, files);
 
-        dispatch("_loadFilesRecursive", getters.getQueueCount);
-    },
-
-    _loadFilesRecursive({commit, getters, dispatch}, fullFilesCount) {
-        if (getters.getQueueCount === 0) {
-            dispatch("enableModule", "content");
-
-            return;
-        }
-
-        let filePath = getters.getQueueItem;
-
-        if (typeof filePath !== "string") {
-            return;
-        }
-
-        axios({
-            method: 'GET',
-            url: filePath,
-            responseType: 'blob',
-        })
-            .then(response => {
-                getters.localDatabase
-                    .storeBlobFile(response.data, filePath)
-                    .then(() => dispatch("_loadFilesRecursive", fullFilesCount))
-                    .catch(() => commit('appGlobalFail'));
-            });
+        fileLoader.runQueue()
+            .then(() => {
+                dispatch("enableModule", "content");
+            })
+            .catch(() => commit('appGlobalFail'));
     },
 
     playMusic({commit}, sound) {
         commit("saveSound", sound);
-    }
+    },
+
+    startApplication({commit}) {
+        commit("toggleApplicationReady", true);
+    },
 };

@@ -1,13 +1,22 @@
 <template>
-    <div class="page-container">
+    <div class="page-container full-height md-layout md-alignment-center-center">
         <loading
+                v-show="!appIsLoad"
                 :title="getLoadingTitle()"
         />
+
+        <md-button class="md-raised md-primary"
+                   v-show="appIsLoad"
+                   @click="startApplication"
+
+        >
+            {{ _.get(translation, 'buttons.readyToStart') }}
+        </md-button>
     </div>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
 
     export default {
         name: 'AppLoading',
@@ -20,14 +29,20 @@
 
         computed: {
             ...mapGetters([
-                'translation'
+                'translation',
+                'appIsLoad',
             ])
         },
 
         methods: {
             getLoadingTitle() {
                 return _.get(this.translation, 'loading') || 'Loading';
-            }
+            },
+
+            ...mapActions([
+                "startApplication",
+            ]),
+
         },
 
         components: {

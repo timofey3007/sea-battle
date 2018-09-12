@@ -8,3 +8,96 @@
   font-family: 'Roboto';
 }
 
+#app {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.full-bg-size {
+  background-size: cover;
+}
+
+/* --- font-icons --- */
+
+/*
+    Flaticon icon font: Flaticon
+    Creation date: 12/09/2018 21:48
+    */
+
+@font-face {
+  font-family: "Flaticon";
+  src: url(../fonts/Flaticon.eot?57f58e736ee0dbcfc9b889cb2555c440);
+  src: url(../fonts/Flaticon.eot?57f58e736ee0dbcfc9b889cb2555c440) format("embedded-opentype"), url(../fonts/Flaticon.woff?a94ebbb0a9ddb2e93252b840c210b410) format("woff"), url(../fonts/Flaticon.ttf?e91708191f871ef393a69a642cbf2485) format("truetype"), url(../images/Flaticon.svg?637d29fabee3153b8d2d8bc6b59f0fc0) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+@font-face {
+    font-family: "Flaticon";
+    src: url(../images/Flaticon.svg?637d29fabee3153b8d2d8bc6b59f0fc0) format("svg");
+}
+}
+
+.fi:before {
+  display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.flaticon-boat:before {
+  content: "\F100";
+}
+
+.flaticon-safe:before {
+  content: "\F101";
+}
+
+.flaticon-naval:before {
+  content: "\F102";
+}
+
+.flaticon-boat-1:before {
+  content: "\F103";
+}
+
+.flaticon-nautical:before {
+  content: "\F104";
+}
+
+.flaticon-nautical-1:before {
+  content: "\F105";
+}
+
+.flaticon-adventure:before {
+  content: "\F106";
+}
+
+.flaticon-boat-2:before {
+  content: "\F107";
+}
+
+.flaticon-look:before {
+  content: "\F108";
+}
+
+.flaticon-adventure-1:before {
+  content: "\F109";
+}
+

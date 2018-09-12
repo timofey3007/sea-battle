@@ -7,7 +7,7 @@ import i18n from './i18n';
 import store from './store';
 import router from './routes';
 
-window._ = lodash;
+Vue.prototype._ = lodash;
 
 Vue.use(VueMaterial);
 

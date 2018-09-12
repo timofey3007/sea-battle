@@ -1,14 +1,15 @@
 <template>
-    <div class="page-container">
+    <div class="page-container full-height">
         <app-loading
-                v-if="!appIsLoad"
+                v-if="!appIsLoad || !readyToStart"
         />
 
         <router-view
-                v-if="appIsLoad"
+                v-if="appIsLoad && readyToStart"
         />
 
         <vue-audio
+                v-if="appIsLoad && readyToStart"
                 v-show="false"
                 :file="getSoundPath"
                 :autoPlay="true"
@@ -30,6 +31,7 @@
         computed: {
             ...mapGetters([
                 'appIsLoad',
+                'readyToStart',
                 'translation',
                 'getSoundPath'
             ])

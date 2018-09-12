@@ -1,66 +1,12 @@
 <template>
-    <md-app>
-        <md-app-toolbar class="md-primary">
-            <span class="md-title">My Title</span>
-        </md-app-toolbar>
-
-        <md-app-drawer md-permanent="full">
-            <md-toolbar class="md-transparent" md-elevation="0">
-                Navigation
-            </md-toolbar>
-
-            <md-list>
-                <md-list-item>
-                    <md-icon>move_to_inbox</md-icon>
-                    <span class="md-list-item-text">Inbox</span>
-                </md-list-item>
-
-                <md-list-item>
-                    <md-icon>send</md-icon>
-                    <span class="md-list-item-text">Sent Mail</span>
-                </md-list-item>
-
-                <md-list-item>
-                    <md-icon>delete</md-icon>
-                    <span class="md-list-item-text">Trash</span>
-                </md-list-item>
-
-                <md-list-item>
-                    <md-icon>error</md-icon>
-                    <span class="md-list-item-text">Spam</span>
-                </md-list-item>
-            </md-list>
-        </md-app-drawer>
-
-        <md-app-content>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum
-                magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non
-                explicabo, neque.</p>
-        </md-app-content>
-
-
-    </md-app>
+    <section
+            class="full-height full-bg-size md-layout"
+            :style="{
+            backgroundImage: bgImage && `url('${bgImage}')`,
+        }"
+    >
+        <md-icon class="fi flaticon-boat"></md-icon>
+    </section>
 </template>
 
 <script>
@@ -69,17 +15,15 @@
     export default {
         name: "Main",
 
-        mounted() {
-            this.localDatabase.getBlobFile('http://localhost/download/sound/start.mp3')
-                .then(sound => {
-                    let startSoundUrl = this.localDatabase.getUrlFromBlob(sound);
-
-                    this.playMusic(startSoundUrl)
-                });
+        async mounted() {
+            this.playMusic(await this.getFilePathFromDB('start.mp3'));
+            this.bgImage = await this.getFilePathFromDB('main_bg.jpg');
         },
 
         data() {
-            return {};
+            return {
+                bgImage: null
+            };
         },
 
         computed: {
@@ -92,7 +36,13 @@
         methods: {
             ...mapActions([
                 'playMusic'
-            ])
+            ]),
+
+            async getFilePathFromDB(fileName) {
+                return this.localDatabase.getUrlFromBlob(
+                    await this.localDatabase.getBlobFile(fileName)
+                );
+            },
         }
     }
 </script>

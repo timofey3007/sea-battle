@@ -31,4 +31,8 @@ export default {
     saveSound(state, soundPath) {
         state.soundPath = soundPath;
     },
+
+    toggleApplicationReady(state, status) {
+        state.readyToStart = status;
+    }
 };

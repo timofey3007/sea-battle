@@ -11,5 +11,13 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('app/assets/js/main.js', 'public/js/app.js')
-  .sass('app/assets/scss/main.scss', 'public/css/app.css');
+mix
+    .js('app/assets/js/main.js', 'public/js/app.js')
+    .sass('app/assets/scss/main.scss', 'public/css/app.css')
+    // .options({
+    //     fileLoaderDirs: {
+    //         fonts: 'public/fonts'
+    //     }
+    // })
+    .setPublicPath('public')
+    .setResourceRoot('../');

@@ -24,3 +24,9 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
+
+# public builds
+public/css
+public/js
+public/fonts
+public/images

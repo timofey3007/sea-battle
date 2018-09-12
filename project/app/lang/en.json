@@ -1,4 +1,6 @@
 {
   "appName": "See Battle",
-  "test": "dfsf"
+  "buttons": {
+    "readyToStart": "GO"
+  }
 }
