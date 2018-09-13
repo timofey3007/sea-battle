@@ -5,7 +5,27 @@
             backgroundImage: bgImage && `url('${bgImage}')`,
         }"
     >
-        <md-icon class="fi flaticon-boat"></md-icon>
+        <button
+                v-for="button in getMainButtonList"
+                :class="[
+                'main-menu-button',
+                button.class,
+                {
+                    'selected': button.id === selectedButton
+                }
+            ]"
+                @click="startButtonAction(button)"
+        >
+            <i :class="[
+                    'fi sub-color',
+                    button.icon
+                ]"
+            ></i>
+        </button>
+
+        <transition
+                v-show="false"
+        ></transition>
     </section>
 </template>
 
@@ -16,13 +36,14 @@
         name: "Main",
 
         async mounted() {
-            this.playMusic(await this.getFilePathFromDB('start.mp3'));
+            // this.playMusic(await this.getFilePathFromDB('start.mp3'));
             this.bgImage = await this.getFilePathFromDB('main_bg.jpg');
         },
 
         data() {
             return {
-                bgImage: null
+                bgImage: null,
+                selectedButton: null,
             };
         },
 
@@ -30,6 +51,7 @@
             ...mapGetters([
                 'localDatabase',
                 'translation',
+                'getMainButtonList',
             ])
         },
 
@@ -43,6 +65,10 @@
                     await this.localDatabase.getBlobFile(fileName)
                 );
             },
+
+            startButtonAction(button) {
+                this.selectedButton = button.id;
+            }
         }
     }
 </script>

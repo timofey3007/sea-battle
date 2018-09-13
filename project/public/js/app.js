@@ -62822,6 +62822,15 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
                 dispatch("loadContent", module);
             }
         }],
+        mainButtonList: [{
+            id: 'start',
+            icon: 'flaticon-boat',
+            class: 'big-menu-button position-start'
+        }, {
+            id: 'settings',
+            icon: 'flaticon-adventure-1',
+            class: 'position-settings'
+        }],
         readyToStart: false,
         soundPath: null
     },
@@ -62866,6 +62875,10 @@ var contentStorage = new __WEBPACK_IMPORTED_MODULE_0__facades_FileStorage__["a" 
         }
 
         return null;
+    },
+
+    getMainButtonList: function getMainButtonList(state) {
+        return state.mainButtonList;
     },
 
     getModule: function getModule(_ref3) {
@@ -66808,7 +66821,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -66872,6 +66885,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -66884,22 +66917,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            _context.t0 = this;
-                            _context.next = 3;
-                            return this.getFilePathFromDB('start.mp3');
-
-                        case 3:
-                            _context.t1 = _context.sent;
-
-                            _context.t0.playMusic.call(_context.t0, _context.t1);
-
-                            _context.next = 7;
+                            _context.next = 2;
                             return this.getFilePathFromDB('main_bg.jpg');
 
-                        case 7:
+                        case 2:
                             this.bgImage = _context.sent;
 
-                        case 8:
+                        case 3:
                         case 'end':
                             return _context.stop();
                     }
@@ -66915,12 +66939,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     }(),
     data: function data() {
         return {
-            bgImage: null
+            bgImage: null,
+            selectedButton: null
         };
     },
 
 
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapGetters */])(['localDatabase', 'translation'])),
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapGetters */])(['localDatabase', 'translation', 'getMainButtonList'])),
 
     methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapActions */])(['playMusic']), {
         getFilePathFromDB: function () {
@@ -66950,7 +66975,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
 
             return getFilePathFromDB;
-        }()
+        }(),
+        startButtonAction: function startButtonAction(button) {
+            this.selectedButton = button.id;
+        }
     })
 });
 
@@ -67751,8 +67779,39 @@ var render = function() {
         backgroundImage: _vm.bgImage && "url('" + _vm.bgImage + "')"
       }
     },
-    [_c("md-icon", { staticClass: "fi flaticon-boat" })],
-    1
+    [
+      _vm._l(_vm.getMainButtonList, function(button) {
+        return _c(
+          "button",
+          {
+            class: [
+              "main-menu-button",
+              button.class,
+              {
+                selected: button.id === _vm.selectedButton
+              }
+            ],
+            on: {
+              click: function($event) {
+                _vm.startButtonAction(button)
+              }
+            }
+          },
+          [
+            _c("i", {
+              class: ["fi sub-color", button.icon]
+            })
+          ]
+        )
+      }),
+      _vm._v(" "),
+      _c("transition", {
+        directives: [
+          { name: "show", rawName: "v-show", value: false, expression: "false" }
+        ]
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []
