@@ -62825,11 +62825,19 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
         mainButtonList: [{
             id: 'start',
             icon: 'flaticon-boat',
-            class: 'big-menu-button position-start'
+            class: 'big-menu-button position-start',
+            position: {
+                left: "50%",
+                top: "50%"
+            }
         }, {
             id: 'settings',
             icon: 'flaticon-adventure-1',
-            class: 'position-settings'
+            class: 'position-settings',
+            position: {
+                left: "80%",
+                top: "60%"
+            }
         }],
         readyToStart: false,
         soundPath: null
@@ -66821,7 +66829,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -66905,6 +66913,52 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -66940,12 +66994,24 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     data: function data() {
         return {
             bgImage: null,
-            selectedButton: null
+            selectedButton: null,
+            needToShowModal: false,
+            needToHideModal: false
         };
     },
 
 
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapGetters */])(['localDatabase', 'translation', 'getMainButtonList'])),
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapGetters */])(['localDatabase', 'translation', 'getMainButtonList']), {
+
+        modalSvg: {
+            get: function get() {
+                console.log('svg', _.cloneDeep(this.$refs));
+                return this.$refs.modalSvg || null;
+            },
+
+            cache: false
+        }
+    }),
 
     methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapActions */])(['playMusic']), {
         getFilePathFromDB: function () {
@@ -66976,8 +67042,53 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             return getFilePathFromDB;
         }(),
-        startButtonAction: function startButtonAction(button) {
+        toggleButtonAction: function toggleButtonAction(button) {
+            if (this.buttonIsSelected(button)) {
+                this.hideModalAction();
+
+                return;
+            }
+
+            this.showModalAction();
             this.selectedButton = button.id;
+        },
+        showModalAction: function showModalAction() {
+            this.needToShowModal = true;
+            this.needToHideModal = false;
+        },
+        hideModalAction: function hideModalAction() {
+            var _this = this;
+
+            this.needToShowModal = false;
+            this.needToHideModal = true;
+
+            setTimeout(function () {
+                _this.selectedButton = false;
+            }, 1000);
+        },
+        buttonIsSelected: function buttonIsSelected(button) {
+            return this.selectedButton === button.id;
+        },
+        getViewBoxSize: function getViewBoxSize() {
+            console.log('fired', this.modalSvg);
+            if (!this.modalSvg) {
+                return '0 0 0 0';
+            }
+
+            var width = this.modalSvg.clientWidth;
+            var height = this.modalSvg.clientHeight;
+
+            return '0 0 ' + width + ' ' + height;
+        },
+        drawLine: function drawLine() {
+            if (!this.modalSvg) {
+                return '';
+            }
+
+            var width = this.modalSvg.clientWidth;
+            var height = this.modalSvg.clientHeight;
+
+            return 'M' + width + ',0 0,0 0,' + height + ' ' + width + ',' + height + 'z';
         }
     })
 });
@@ -67780,38 +67891,113 @@ var render = function() {
       }
     },
     [
-      _vm._l(_vm.getMainButtonList, function(button) {
-        return _c(
-          "button",
-          {
-            class: [
-              "main-menu-button",
-              button.class,
+      _c(
+        "div",
+        {
+          class: [
+            {
+              "show-modal-on-main": _vm.needToShowModal,
+              "hide-modal-on-main": _vm.needToHideModal
+            }
+          ]
+        },
+        [
+          _vm._l(_vm.getMainButtonList, function(button) {
+            return _c(
+              "button",
               {
-                selected: button.id === _vm.selectedButton
+                key: "button-" + button.id,
+                class: [
+                  "main-menu-button",
+                  button.class,
+                  {
+                    selected: _vm.buttonIsSelected(button)
+                  }
+                ],
+                style: button.position,
+                on: {
+                  click: function($event) {
+                    _vm.toggleButtonAction(button)
+                  }
+                }
+              },
+              [
+                _vm.needToShowModal
+                  ? _c("md-icon", [_vm._v("clear")])
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.needToShowModal
+                  ? _c("i", {
+                      class: ["fi sub-color", button.icon]
+                    })
+                  : _vm._e()
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c("div", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.selectedButton,
+                expression: "selectedButton"
               }
             ],
-            on: {
-              click: function($event) {
-                _vm.startButtonAction(button)
-              }
-            }
-          },
-          [
-            _c("i", {
-              class: ["fi sub-color", button.icon]
-            })
-          ]
-        )
-      }),
-      _vm._v(" "),
-      _c("transition", {
-        directives: [
-          { name: "show", rawName: "v-show", value: false, expression: "false" }
-        ]
-      })
-    ],
-    2
+            staticClass: "bg-shadow"
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              class: [
+                "main-modal",
+                {
+                  "show-modal": _vm.selectedButton,
+                  "draw-modal-line": _vm.needToShowModal
+                }
+              ]
+            },
+            [
+              _c("div", { staticClass: "modal-content" }),
+              _vm._v(" "),
+              _c(
+                "svg",
+                {
+                  ref: "modalSvg",
+                  staticClass: "modal-svg-box",
+                  attrs: {
+                    "xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+                    "xmlns:svg": "http://www.w3.org/2000/svg",
+                    xmlns: "http://www.w3.org/2000/svg",
+                    "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                    viewBox: _vm.modalSvg && _vm.getViewBoxSize(),
+                    version: "1.1"
+                  }
+                },
+                [
+                  _c("path", {
+                    class: [
+                      "border-path",
+                      {
+                        "draw-border": _vm.needToShowModal
+                      }
+                    ],
+                    attrs: {
+                      "stroke-width": "2",
+                      fill: "none",
+                      d: _vm.drawLine()
+                    }
+                  })
+                ]
+              )
+            ]
+          )
+        ],
+        2
+      )
+    ]
   )
 }
 var staticRenderFns = []

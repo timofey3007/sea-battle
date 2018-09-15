@@ -5,27 +5,73 @@
             backgroundImage: bgImage && `url('${bgImage}')`,
         }"
     >
-        <button
-                v-for="button in getMainButtonList"
-                :class="[
-                'main-menu-button',
-                button.class,
+        <div :class="[
                 {
-                    'selected': button.id === selectedButton
+                    'show-modal-on-main': needToShowModal,
+                    'hide-modal-on-main': needToHideModal,
                 }
             ]"
-                @click="startButtonAction(button)"
-        >
-            <i :class="[
-                    'fi sub-color',
-                    button.icon
-                ]"
-            ></i>
-        </button>
 
-        <transition
-                v-show="false"
-        ></transition>
+        >
+            <button
+                    v-for="button in getMainButtonList"
+                    :class="[
+                    'main-menu-button',
+                    button.class,
+                        {
+                            'selected': buttonIsSelected(button)
+                        }
+                    ]"
+                    :style="button.position"
+                    @click="toggleButtonAction(button)"
+                    :key="`button-${button.id}`"
+            >
+                <md-icon v-if="needToShowModal">clear</md-icon>
+
+                <i v-if="!needToShowModal"
+                   :class="[
+                       'fi sub-color',
+                       button.icon
+                   ]"
+                ></i>
+            </button>
+
+            <div class="bg-shadow"
+                 v-show="selectedButton"
+            ></div>
+
+            <div :class="[
+                     'main-modal',
+                     {
+                         'show-modal': selectedButton,
+                         'draw-modal-line': needToShowModal
+                     }
+                 ]"
+            >
+                <div class="modal-content">
+
+                </div>
+                <svg class="modal-svg-box"
+                     ref="modalSvg"
+                     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                     xmlns:svg="http://www.w3.org/2000/svg"
+                     xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                     :viewBox="modalSvg && getViewBoxSize()"
+                     version="1.1"
+                >
+                    <path :class="[
+                              'border-path',
+                              {
+                                  'draw-border': needToShowModal
+                              }
+                          ]"
+                          stroke-width="2"
+                          fill="none"
+                          :d="drawLine()"/>
+                </svg>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -44,6 +90,8 @@
             return {
                 bgImage: null,
                 selectedButton: null,
+                needToShowModal: false,
+                needToHideModal: false,
             };
         },
 
@@ -52,7 +100,15 @@
                 'localDatabase',
                 'translation',
                 'getMainButtonList',
-            ])
+            ]),
+
+            modalSvg: {
+                get() {
+                    console.log('svg', _.cloneDeep(this.$refs));
+                    return this.$refs.modalSvg || null;
+                },
+                cache: false
+            }
         },
 
         methods: {
@@ -66,9 +122,57 @@
                 );
             },
 
-            startButtonAction(button) {
+            toggleButtonAction(button) {
+                if (this.buttonIsSelected(button)) {
+                    this.hideModalAction();
+
+                    return;
+                }
+
+                this.showModalAction();
                 this.selectedButton = button.id;
-            }
+            },
+
+            showModalAction() {
+                this.needToShowModal = true;
+                this.needToHideModal = false;
+            },
+
+            hideModalAction() {
+                this.needToShowModal = false;
+                this.needToHideModal = true;
+
+                setTimeout(() => {
+                    this.selectedButton = false;
+                }, 1000);
+            },
+
+            buttonIsSelected(button) {
+                return this.selectedButton === button.id;
+            },
+
+            getViewBoxSize() {
+                console.log('fired', this.modalSvg);
+                if (!this.modalSvg) {
+                    return '0 0 0 0';
+                }
+
+                let width = this.modalSvg.clientWidth;
+                let height = this.modalSvg.clientHeight;
+
+                return `0 0 ${width} ${height}`;
+            },
+
+            drawLine() {
+                if (!this.modalSvg) {
+                    return '';
+                }
+
+                let width = this.modalSvg.clientWidth;
+                let height = this.modalSvg.clientHeight;
+
+                return `M${width},0 0,0 0,${height} ${width},${height}z`;
+            },
         }
     }
 </script>

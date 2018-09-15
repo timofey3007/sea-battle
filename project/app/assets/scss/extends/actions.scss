@@ -1,0 +1,35 @@
+.show-modal-on-main {
+  & .main-menu-button.selected {
+    -webkit-animation: slideToTRCorner 600ms forwards;
+    animation: slideToTRCorner 600ms forwards;
+  }
+
+  & .bg-shadow {
+    -webkit-animation: fadeIn 600ms forwards;
+    animation: fadeIn 600ms forwards;
+  }
+
+  & .modal-svg-box {
+
+    & .border-path {
+      stroke: $border-main-color;
+
+      &.draw-border {
+        -webkit-animation: drawDivideFigure 1s 600ms forwards;
+        animation: drawDivideFigure 1s 600ms forwards;
+      }
+    }
+  }
+}
+
+.hide-modal-on-main {
+  & .main-menu-button.selected {
+    -webkit-animation: slideBack 600ms;
+    animation: slideBack 600ms;
+  }
+
+  & .bg-shadow {
+    -webkit-animation: fadeOut 600ms forwards;
+    animation: fadeOut 600ms forwards;
+  }
+}

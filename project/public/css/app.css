@@ -2303,6 +2303,16 @@ Creation date: 12/09/2018 21:48
   background-size: cover;
 }
 
+.bg-shadow {
+  position: fixed;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 47, 49, 0.7);
+}
+
 /** --- colors --- */
 
 .sub-color {
@@ -2373,13 +2383,15 @@ Creation date: 12/09/2018 21:48
 
 /* --- move to top right corner --- */
 
-@-webkit-keyframes slideToTRCorner {
-  0% {
+@keyframes slideToTRCorner {
+  from {
+    left: calc(var(left));
+    top: calc(var(top));
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
 
-  100% {
+  to {
     top: 0;
     left: 100%;
     -webkit-transform: translate(-100%, 0);
@@ -2387,18 +2399,147 @@ Creation date: 12/09/2018 21:48
   }
 }
 
-@keyframes slideToTRCorner {
-  0% {
+@-webkit-keyframes slideToTRCorner {
+  from {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
 
-  100% {
+  to {
     top: 0;
     left: 100%;
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
   }
+}
+
+/* --- move to origin position --- */
+
+@keyframes slideBack {
+  from {
+    top: 0;
+    left: 100%;
+    -webkit-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
+  }
+
+  to {
+    left: calc(var(left));
+    top: calc(var(top));
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+@-webkit-keyframes slideBack {
+  from {
+    top: 0;
+    left: 100%;
+    -webkit-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
+  }
+
+  to {
+    left: calc(var(left));
+    top: calc(var(top));
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* --- fade in --- */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- fade out --- */
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/* --- draw quadrant figure --- */
+
+@-webkit-keyframes drawDivideFigure {
+  from {
+    stroke-dasharray: 0, 2*calc(var(width)) + 2*calc(var(height));
+    stroke-dashoffset: -2*calc(var(width)) + 2*calc(var(height))/2;
+  }
+
+  to {
+    stroke-dasharray: 2*calc(var(width)) + 2*calc(var(height));
+  }
+}
+
+@keyframes drawDivideFigure {
+  from {
+    stroke-dasharray: 0, 2*calc(var(width)) + 2*calc(var(height));
+    stroke-dashoffset: -2*calc(var(width)) + 2*calc(var(height))/2;
+  }
+
+  to {
+    stroke-dasharray: 2*calc(var(width)) + 2*calc(var(height));
+  }
+}
+
+.main-modal {
+  position: fixed;
+  z-index: -1;
+  left: 40px;
+  top: 40px;
+  width: calc(100% - (2 * 40px));
+  height: calc(100% - (2 * 40px));
+}
+
+.main-modal .show-modal {
+  z-index: 95;
+}
+
+.main-modal .modal-svg-box {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.main-modal .modal-content {
+  position: relative;
+  z-index: 5;
 }
 
 /* --- menu select button --- */
@@ -2445,8 +2586,6 @@ Creation date: 12/09/2018 21:48
 
 .main-menu-button.selected {
   z-index: 100;
-  -webkit-animation: slideToTRCorner 600ms forwards;
-  animation: slideToTRCorner 600ms forwards;
 }
 
 .main-menu-button.selected:before {
@@ -2464,18 +2603,37 @@ Creation date: 12/09/2018 21:48
   font-size: 36px;
 }
 
-.position-start {
-  top: 50%;
-  left: 50%;
-}
-
-.position-settings {
-  top: 60%;
-  left: 80%;
-}
-
 .position-settings:before {
   -webkit-animation-delay: 500ms;
   animation-delay: 500ms;
+}
+
+.show-modal-on-main .main-menu-button.selected {
+  -webkit-animation: slideToTRCorner 600ms forwards;
+  animation: slideToTRCorner 600ms forwards;
+}
+
+.show-modal-on-main .bg-shadow {
+  -webkit-animation: fadeIn 600ms forwards;
+  animation: fadeIn 600ms forwards;
+}
+
+.show-modal-on-main .modal-svg-box .border-path {
+  stroke: #002F31;
+}
+
+.show-modal-on-main .modal-svg-box .border-path.draw-border {
+  -webkit-animation: drawDivideFigure 1s 600ms forwards;
+  animation: drawDivideFigure 1s 600ms forwards;
+}
+
+.hide-modal-on-main .main-menu-button.selected {
+  -webkit-animation: slideBack 600ms;
+  animation: slideBack 600ms;
+}
+
+.hide-modal-on-main .bg-shadow {
+  -webkit-animation: fadeOut 600ms forwards;
+  animation: fadeOut 600ms forwards;
 }
 

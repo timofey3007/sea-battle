@@ -49,12 +49,20 @@ export default new Vuex.Store({
             {
                 id: 'start',
                 icon: 'flaticon-boat',
-                class: 'big-menu-button position-start'
+                class: 'big-menu-button position-start',
+                position: {
+                    left: "50%",
+                    top: "50%",
+                },
             },
             {
                 id: 'settings',
                 icon: 'flaticon-adventure-1',
-                class: 'position-settings'
+                class: 'position-settings',
+                position: {
+                    left: "80%",
+                    top: "60%",
+                },
             },
         ],
         readyToStart: false,

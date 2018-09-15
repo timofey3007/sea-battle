@@ -85,7 +85,10 @@
 
 /* --- move to top right corner --- */
 @keyframes slideToTRCorner {
-  0% {
+  from {
+    left: calc(var(left));
+    top: calc(var(top));
+
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
@@ -93,7 +96,7 @@
     transform: translate(-50%, -50%);
   }
 
-  100% {
+  to {
     top: 0;
     left: 100%;
 
@@ -102,5 +105,128 @@
     -ms-transform: translate(-100%, 0);
     -o-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
+  }
+}
+
+@-webkit-keyframes slideToTRCorner {
+  from {
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  to {
+    top: 0;
+    left: 100%;
+
+    -webkit-transform: translate(-100%, 0);
+    -moz-transform: translate(-100%, 0);
+    -ms-transform: translate(-100%, 0);
+    -o-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
+  }
+}
+
+/* --- move to origin position --- */
+@keyframes slideBack {
+  from {
+    top: 0;
+    left: 100%;
+
+    -webkit-transform: translate(-100%, 0);
+    -moz-transform: translate(-100%, 0);
+    -ms-transform: translate(-100%, 0);
+    -o-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
+  }
+
+  to {
+    left: calc(var(left));
+    top: calc(var(top));
+
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+@-webkit-keyframes slideBack {
+  from {
+    top: 0;
+    left: 100%;
+
+    -webkit-transform: translate(-100%, 0);
+    -moz-transform: translate(-100%, 0);
+    -ms-transform: translate(-100%, 0);
+    -o-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
+  }
+
+  to {
+    left: calc(var(left));
+    top: calc(var(top));
+
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* --- fade in --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- fade out --- */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* --- draw quadrant figure --- */
+@keyframes drawDivideFigure {
+  $width: calc(var(width));
+  $height: calc(var(height));
+  $squareLen: 2*#{$width} + 2*#{$height};
+
+  from {
+    stroke-dasharray: 0, $squareLen;
+    stroke-dashoffset: -$squareLen/2;
+  }
+  to {
+    stroke-dasharray: $squareLen;
   }
 }
