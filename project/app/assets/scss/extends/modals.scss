@@ -7,7 +7,7 @@
   width: calc(100% - (2 * #{$main-modal-offset}));
   height: calc(100% - (2 * #{$main-modal-offset}));
 
-  & .show-modal {
+  &.show-modal {
     z-index: 95;
   }
 

@@ -9,15 +9,13 @@
     animation: fadeIn 600ms forwards;
   }
 
-  & .modal-svg-box {
+  & .show-modal {
+    & .modal-svg-box .border-path {
+      stroke: $border-sub-color;
+      visibility: hidden;
 
-    & .border-path {
-      stroke: $border-main-color;
-
-      &.draw-border {
-        -webkit-animation: drawDivideFigure 1s 600ms forwards;
-        animation: drawDivideFigure 1s 600ms forwards;
-      }
+      -webkit-animation: drawDivideFigure 1s 600ms forwards;
+      animation: drawDivideFigure 1s 600ms forwards;
     }
   }
 }

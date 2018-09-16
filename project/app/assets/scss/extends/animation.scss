@@ -218,15 +218,17 @@
 
 /* --- draw quadrant figure --- */
 @keyframes drawDivideFigure {
-  $width: calc(var(width));
-  $height: calc(var(height));
-  $squareLen: 2*#{$width} + 2*#{$height};
+  $width: calc(var(--svg-width));
+  $height: calc(var(--svg-height));
+  $squareLen: 2 * #{$width} + 2 * #{$height};
 
   from {
+    visibility: visible;
     stroke-dasharray: 0, $squareLen;
-    stroke-dashoffset: -$squareLen/2;
+    stroke-dashoffset: -(#{$squareLen})/2;
   }
   to {
+    visibility: visible;
     stroke-dasharray: $squareLen;
   }
 }

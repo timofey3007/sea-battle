@@ -44,7 +44,6 @@
                      'main-modal',
                      {
                          'show-modal': selectedButton,
-                         'draw-modal-line': needToShowModal
                      }
                  ]"
             >
@@ -62,9 +61,6 @@
                 >
                     <path :class="[
                               'border-path',
-                              {
-                                  'draw-border': needToShowModal
-                              }
                           ]"
                           stroke-width="2"
                           fill="none"
@@ -104,7 +100,6 @@
 
             modalSvg: {
                 get() {
-                    console.log('svg', _.cloneDeep(this.$refs));
                     return this.$refs.modalSvg || null;
                 },
                 cache: false
@@ -134,6 +129,11 @@
             },
 
             showModalAction() {
+              let borderPath = this.modalSvg.querySelector('.border-path');
+
+              borderPath.style.setProperty('--svg-width', this.modalSvg.clientWidth);
+              borderPath.style.setProperty('--svg-height', this.modalSvg.clientHeight);
+
                 this.needToShowModal = true;
                 this.needToHideModal = false;
             },
@@ -152,7 +152,6 @@
             },
 
             getViewBoxSize() {
-                console.log('fired', this.modalSvg);
                 if (!this.modalSvg) {
                     return '0 0 0 0';
                 }
