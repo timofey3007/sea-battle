@@ -2495,23 +2495,27 @@ Creation date: 12/09/2018 21:48
 
 @-webkit-keyframes drawDivideFigure {
   from {
-    stroke-dasharray: 0, 2*calc(var(width)) + 2*calc(var(height));
-    stroke-dashoffset: -2*calc(var(width)) + 2*calc(var(height))/2;
+    visibility: visible;
+    stroke-dasharray: 0, calc(2 * var(--svg-width) + 2 * var(--svg-height));
+    stroke-dashoffset: -calc(2 * var(--svg-width) + 2 * var(--svg-height))/2;
   }
 
   to {
-    stroke-dasharray: 2*calc(var(width)) + 2*calc(var(height));
+    visibility: visible;
+    stroke-dasharray: calc(2 * var(--svg-width) + 2 * var(--svg-height));
   }
 }
 
 @keyframes drawDivideFigure {
   from {
-    stroke-dasharray: 0, 2*calc(var(width)) + 2*calc(var(height));
-    stroke-dashoffset: -2*calc(var(width)) + 2*calc(var(height))/2;
+    visibility: visible;
+    stroke-dasharray: 0, calc(2 * var(--svg-width) + 2 * var(--svg-height));
+    stroke-dashoffset: -calc(2 * var(--svg-width) + 2 * var(--svg-height))/2;
   }
 
   to {
-    stroke-dasharray: 2*calc(var(width)) + 2*calc(var(height));
+    visibility: visible;
+    stroke-dasharray: calc(2 * var(--svg-width) + 2 * var(--svg-height));
   }
 }
 
@@ -2524,7 +2528,7 @@ Creation date: 12/09/2018 21:48
   height: calc(100% - (2 * 40px));
 }
 
-.main-modal .show-modal {
+.main-modal.show-modal {
   z-index: 95;
 }
 
@@ -2618,11 +2622,9 @@ Creation date: 12/09/2018 21:48
   animation: fadeIn 600ms forwards;
 }
 
-.show-modal-on-main .modal-svg-box .border-path {
-  stroke: #002F31;
-}
-
-.show-modal-on-main .modal-svg-box .border-path.draw-border {
+.show-modal-on-main .show-modal .modal-svg-box .border-path {
+  stroke: #56c1cc;
+  visibility: hidden;
   -webkit-animation: drawDivideFigure 1s 600ms forwards;
   animation: drawDivideFigure 1s 600ms forwards;
 }

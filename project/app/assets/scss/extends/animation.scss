@@ -218,9 +218,7 @@
 
 /* --- draw quadrant figure --- */
 @keyframes drawDivideFigure {
-  $width: calc(var(--svg-width));
-  $height: calc(var(--svg-height));
-  $squareLen: 2 * #{$width} + 2 * #{$height};
+  $squareLen: calc(2 * var(--svg-width) + 2 * var(--svg-height));
 
   from {
     visibility: visible;

@@ -129,11 +129,15 @@
             },
 
             showModalAction() {
-              let borderPath = this.modalSvg.querySelector('.border-path');
+              // let borderPath = this.modalSvg.querySelector('.border-path');
 
-              borderPath.style.setProperty('--svg-width', this.modalSvg.clientWidth);
-              borderPath.style.setProperty('--svg-height', this.modalSvg.clientHeight);
+              document.documentElement.style.setProperty('--svg-width', `${this.modalSvg.clientWidth}px`);
+              document.documentElement.style.setProperty('--svg-height', `${this.modalSvg.clientHeight}px`);
 
+              console.log('getProperties', {
+                width: document.documentElement.style.getPropertyValue('--svg-width'),
+                height: document.documentElement.style.getPropertyValue('--svg-height')
+              });
                 this.needToShowModal = true;
                 this.needToHideModal = false;
             },

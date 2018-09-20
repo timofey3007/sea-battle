@@ -64089,7 +64089,7 @@ var APP_LANG_URL = APP_API_URL + "/lang";
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BASE_URL; });
-var BASE_URL = "http://see-battle.local";
+var BASE_URL = "http://localhost";
 
 /***/ }),
 /* 53 */
@@ -66829,7 +66829,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -66955,10 +66955,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -67005,7 +67001,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         modalSvg: {
             get: function get() {
-                console.log('svg', _.cloneDeep(this.$refs));
                 return this.$refs.modalSvg || null;
             },
 
@@ -67053,6 +67048,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.selectedButton = button.id;
         },
         showModalAction: function showModalAction() {
+            // let borderPath = this.modalSvg.querySelector('.border-path');
+
+            document.documentElement.style.setProperty('--svg-width', this.modalSvg.clientWidth + 'px');
+            document.documentElement.style.setProperty('--svg-height', this.modalSvg.clientHeight + 'px');
+
+            console.log('getProperties', {
+                width: document.documentElement.style.getPropertyValue('--svg-width'),
+                height: document.documentElement.style.getPropertyValue('--svg-height')
+            });
             this.needToShowModal = true;
             this.needToHideModal = false;
         },
@@ -67070,7 +67074,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             return this.selectedButton === button.id;
         },
         getViewBoxSize: function getViewBoxSize() {
-            console.log('fired', this.modalSvg);
             if (!this.modalSvg) {
                 return '0 0 0 0';
             }
@@ -67954,8 +67957,7 @@ var render = function() {
               class: [
                 "main-modal",
                 {
-                  "show-modal": _vm.selectedButton,
-                  "draw-modal-line": _vm.needToShowModal
+                  "show-modal": _vm.selectedButton
                 }
               ]
             },
@@ -67978,12 +67980,7 @@ var render = function() {
                 },
                 [
                   _c("path", {
-                    class: [
-                      "border-path",
-                      {
-                        "draw-border": _vm.needToShowModal
-                      }
-                    ],
+                    class: ["border-path"],
                     attrs: {
                       "stroke-width": "2",
                       fill: "none",
