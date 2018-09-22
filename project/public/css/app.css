@@ -2313,6 +2313,13 @@ Creation date: 12/09/2018 21:48
   background-color: rgba(0, 47, 49, 0.7);
 }
 
+.flex-vertical {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
 /** --- colors --- */
 
 .sub-color {
@@ -2451,20 +2458,24 @@ Creation date: 12/09/2018 21:48
 
 @keyframes fadeIn {
   from {
+    visibility: visible;
     opacity: 0;
   }
 
   to {
+    visibility: visible;
     opacity: 1;
   }
 }
 
 @-webkit-keyframes fadeIn {
   from {
+    visibility: visible;
     opacity: 0;
   }
 
   to {
+    visibility: visible;
     opacity: 1;
   }
 }
@@ -2473,20 +2484,24 @@ Creation date: 12/09/2018 21:48
 
 @keyframes fadeOut {
   from {
+    visibility: visible;
     opacity: 1;
   }
 
   to {
+    visibility: visible;
     opacity: 0;
   }
 }
 
 @-webkit-keyframes fadeOut {
   from {
+    visibility: visible;
     opacity: 1;
   }
 
   to {
+    visibility: visible;
     opacity: 0;
   }
 }
@@ -2496,26 +2511,26 @@ Creation date: 12/09/2018 21:48
 @-webkit-keyframes drawDivideFigure {
   from {
     visibility: visible;
-    stroke-dasharray: 0, calc(2 * var(--svg-width) + 2 * var(--svg-height));
-    stroke-dashoffset: -calc(2 * var(--svg-width) + 2 * var(--svg-height))/2;
+    stroke-dasharray: 0, calc(2 * calc(var(--svg-width) + var(--svg-height)));
+    stroke-dashoffset: -180%;
   }
 
   to {
     visibility: visible;
-    stroke-dasharray: calc(2 * var(--svg-width) + 2 * var(--svg-height));
+    stroke-dasharray: calc(2 * calc(var(--svg-width) + var(--svg-height)));
   }
 }
 
 @keyframes drawDivideFigure {
   from {
     visibility: visible;
-    stroke-dasharray: 0, calc(2 * var(--svg-width) + 2 * var(--svg-height));
-    stroke-dashoffset: -calc(2 * var(--svg-width) + 2 * var(--svg-height))/2;
+    stroke-dasharray: 0, calc(2 * calc(var(--svg-width) + var(--svg-height)));
+    stroke-dashoffset: -180%;
   }
 
   to {
     visibility: visible;
-    stroke-dasharray: calc(2 * var(--svg-width) + 2 * var(--svg-height));
+    stroke-dasharray: calc(2 * calc(var(--svg-width) + var(--svg-height)));
   }
 }
 
@@ -2546,6 +2561,17 @@ Creation date: 12/09/2018 21:48
   z-index: 5;
 }
 
+.modal-content {
+  height: 100%;
+  visibility: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 /* --- menu select button --- */
 
 .main-menu-button {
@@ -2560,6 +2586,20 @@ Creation date: 12/09/2018 21:48
   cursor: pointer;
   border-radius: 50%;
   border: none;
+}
+
+.main-menu-button .clear-button {
+  display: none;
+}
+
+.main-menu-button.selected .clear-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.main-menu-button.selected .icon-button {
+  display: none;
 }
 
 .main-menu-button:before {
@@ -2625,8 +2665,13 @@ Creation date: 12/09/2018 21:48
 .show-modal-on-main .show-modal .modal-svg-box .border-path {
   stroke: #56c1cc;
   visibility: hidden;
-  -webkit-animation: drawDivideFigure 1s 600ms forwards;
-  animation: drawDivideFigure 1s 600ms forwards;
+  -webkit-animation: drawDivideFigure 1s 600ms linear forwards;
+  animation: drawDivideFigure 1s 600ms linear forwards;
+}
+
+.show-modal-on-main .show-modal .modal-content {
+  -webkit-animation: fadeIn 400ms 1600ms forwards;
+  animation: fadeIn 400ms 1600ms forwards;
 }
 
 .hide-modal-on-main .main-menu-button.selected {

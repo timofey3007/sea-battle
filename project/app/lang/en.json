@@ -1,6 +1,10 @@
 {
   "appName": "See Battle",
   "buttons": {
-    "readyToStart": "GO"
+    "readyToStart": "GO",
+    "singleGame": "Single play",
+    "multiplayerGame": "Online",
+    "onlineGame": "Online",
+    "lanGame": "Lan"
   }
 }

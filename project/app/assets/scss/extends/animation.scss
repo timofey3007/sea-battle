@@ -1,232 +1,241 @@
 /* --- blinking round --- */
 @-webkit-keyframes easyBlinkingRound {
-  0% {
-    border-width: 2px;
-    border-style: solid;
-    background-color: transparent;
+    0% {
+        border-width: 2px;
+        border-style: solid;
+        background-color: transparent;
 
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
 
-    width: 100%;
-    height: 100%;
+        width: 100%;
+        height: 100%;
 
-    opacity: 1;
-  }
+        opacity: 1;
+    }
 
-  50% {
-    -webkit-box-shadow: 0px 0px 10px 2px $sub-bg-color;
-    -moz-box-shadow: 0px 0px 10px 2px $sub-bg-color;
-    box-shadow: 0px 0px 10px 2px $sub-bg-color;
-  }
+    50% {
+        -webkit-box-shadow: 0px 0px 10px 2px $sub-bg-color;
+        -moz-box-shadow: 0px 0px 10px 2px $sub-bg-color;
+        box-shadow: 0px 0px 10px 2px $sub-bg-color;
+    }
 
-  90% {
-    -webkit-box-shadow: 0px 0px 0px 0px $sub-bg-color;
-    -moz-box-shadow: 0px 0px 0px 0px $sub-bg-color;
-    box-shadow: 0px 0px 0px 0px $sub-bg-color;
-  }
+    90% {
+        -webkit-box-shadow: 0px 0px 0px 0px $sub-bg-color;
+        -moz-box-shadow: 0px 0px 0px 0px $sub-bg-color;
+        box-shadow: 0px 0px 0px 0px $sub-bg-color;
+    }
 
-  100% {
-    border-width: 1px;
+    100% {
+        border-width: 1px;
 
-    width: 200%;
-    height: 200%;
+        width: 200%;
+        height: 200%;
 
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
 
-    opacity: 0;
-  }
+        opacity: 0;
+    }
 }
 
 @keyframes easyBlinkingRound {
-  0% {
-    border-width: 2px;
-    border-style: solid;
-    background-color: transparent;
+    0% {
+        border-width: 2px;
+        border-style: solid;
+        background-color: transparent;
 
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
 
-    width: 100%;
-    height: 100%;
+        width: 100%;
+        height: 100%;
 
-    opacity: 1;
-  }
+        opacity: 1;
+    }
 
-  50% {
-    -webkit-box-shadow: 0px 0px 10px 2px $sub-bg-color;
-    -moz-box-shadow: 0px 0px 10px 2px $sub-bg-color;
-    box-shadow: 0px 0px 10px 2px $sub-bg-color;
-  }
+    50% {
+        -webkit-box-shadow: 0px 0px 10px 2px $sub-bg-color;
+        -moz-box-shadow: 0px 0px 10px 2px $sub-bg-color;
+        box-shadow: 0px 0px 10px 2px $sub-bg-color;
+    }
 
-  90% {
-    -webkit-box-shadow: 0px 0px 0px 0px $sub-bg-color;
-    -moz-box-shadow: 0px 0px 0px 0px $sub-bg-color;
-    box-shadow: 0px 0px 0px 0px $sub-bg-color;
-  }
+    90% {
+        -webkit-box-shadow: 0px 0px 0px 0px $sub-bg-color;
+        -moz-box-shadow: 0px 0px 0px 0px $sub-bg-color;
+        box-shadow: 0px 0px 0px 0px $sub-bg-color;
+    }
 
-  100% {
-    border-width: 1px;
+    100% {
+        border-width: 1px;
 
-    width: 200%;
-    height: 200%;
+        width: 200%;
+        height: 200%;
 
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
 
-    opacity: 0;
-  }
+        opacity: 0;
+    }
 }
 
 /* --- move to top right corner --- */
 @keyframes slideToTRCorner {
-  from {
-    left: calc(var(left));
-    top: calc(var(top));
+    from {
+        left: calc(var(left));
+        top: calc(var(top));
 
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
 
-  to {
-    top: 0;
-    left: 100%;
+    to {
+        top: 0;
+        left: 100%;
 
-    -webkit-transform: translate(-100%, 0);
-    -moz-transform: translate(-100%, 0);
-    -ms-transform: translate(-100%, 0);
-    -o-transform: translate(-100%, 0);
-    transform: translate(-100%, 0);
-  }
+        -webkit-transform: translate(-100%, 0);
+        -moz-transform: translate(-100%, 0);
+        -ms-transform: translate(-100%, 0);
+        -o-transform: translate(-100%, 0);
+        transform: translate(-100%, 0);
+    }
 }
 
 @-webkit-keyframes slideToTRCorner {
-  from {
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
+    from {
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
 
-  to {
-    top: 0;
-    left: 100%;
+    to {
+        top: 0;
+        left: 100%;
 
-    -webkit-transform: translate(-100%, 0);
-    -moz-transform: translate(-100%, 0);
-    -ms-transform: translate(-100%, 0);
-    -o-transform: translate(-100%, 0);
-    transform: translate(-100%, 0);
-  }
+        -webkit-transform: translate(-100%, 0);
+        -moz-transform: translate(-100%, 0);
+        -ms-transform: translate(-100%, 0);
+        -o-transform: translate(-100%, 0);
+        transform: translate(-100%, 0);
+    }
 }
 
 /* --- move to origin position --- */
 @keyframes slideBack {
-  from {
-    top: 0;
-    left: 100%;
+    from {
+        top: 0;
+        left: 100%;
 
-    -webkit-transform: translate(-100%, 0);
-    -moz-transform: translate(-100%, 0);
-    -ms-transform: translate(-100%, 0);
-    -o-transform: translate(-100%, 0);
-    transform: translate(-100%, 0);
-  }
+        -webkit-transform: translate(-100%, 0);
+        -moz-transform: translate(-100%, 0);
+        -ms-transform: translate(-100%, 0);
+        -o-transform: translate(-100%, 0);
+        transform: translate(-100%, 0);
+    }
 
-  to {
-    left: calc(var(left));
-    top: calc(var(top));
+    to {
+        left: calc(var(left));
+        top: calc(var(top));
 
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
 }
 
 @-webkit-keyframes slideBack {
-  from {
-    top: 0;
-    left: 100%;
+    from {
+        top: 0;
+        left: 100%;
 
-    -webkit-transform: translate(-100%, 0);
-    -moz-transform: translate(-100%, 0);
-    -ms-transform: translate(-100%, 0);
-    -o-transform: translate(-100%, 0);
-    transform: translate(-100%, 0);
-  }
+        -webkit-transform: translate(-100%, 0);
+        -moz-transform: translate(-100%, 0);
+        -ms-transform: translate(-100%, 0);
+        -o-transform: translate(-100%, 0);
+        transform: translate(-100%, 0);
+    }
 
-  to {
-    left: calc(var(left));
-    top: calc(var(top));
+    to {
+        left: calc(var(left));
+        top: calc(var(top));
 
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
 }
 
 /* --- fade in --- */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        visibility: visible;
+        opacity: 0;
+    }
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        visibility: visible;
+        opacity: 0;
+    }
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 /* --- fade out --- */
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        visibility: visible;
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        visibility: visible;
+        opacity: 0;
+    }
 }
 
 /* --- draw quadrant figure --- */
 @keyframes drawDivideFigure {
-  $squareLen: calc(2 * var(--svg-width) + 2 * var(--svg-height));
+    $halfModalLen: calc(var(--svg-width) + var(--svg-height));
+    $modalLen: calc(2 * #{$halfModalLen});
 
-  from {
-    visibility: visible;
-    stroke-dasharray: 0, $squareLen;
-    stroke-dashoffset: -(#{$squareLen})/2;
-  }
-  to {
-    visibility: visible;
-    stroke-dasharray: $squareLen;
-  }
+    from {
+        visibility: visible;
+        stroke-dasharray: 0, $modalLen;
+        stroke-dashoffset: -180%;
+    }
+    to {
+        visibility: visible;
+        stroke-dasharray: $modalLen;
+    }
 }

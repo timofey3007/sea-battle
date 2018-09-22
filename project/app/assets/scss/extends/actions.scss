@@ -1,33 +1,38 @@
 .show-modal-on-main {
-  & .main-menu-button.selected {
-    -webkit-animation: slideToTRCorner 600ms forwards;
-    animation: slideToTRCorner 600ms forwards;
-  }
-
-  & .bg-shadow {
-    -webkit-animation: fadeIn 600ms forwards;
-    animation: fadeIn 600ms forwards;
-  }
-
-  & .show-modal {
-    & .modal-svg-box .border-path {
-      stroke: $border-sub-color;
-      visibility: hidden;
-
-      -webkit-animation: drawDivideFigure 1s 600ms forwards;
-      animation: drawDivideFigure 1s 600ms forwards;
+    & .main-menu-button.selected {
+        -webkit-animation: slideToTRCorner 600ms forwards;
+        animation: slideToTRCorner 600ms forwards;
     }
-  }
+
+    & .bg-shadow {
+        -webkit-animation: fadeIn 600ms forwards;
+        animation: fadeIn 600ms forwards;
+    }
+
+    & .show-modal {
+        & .modal-svg-box .border-path {
+            stroke: $border-sub-color;
+            visibility: hidden;
+
+            -webkit-animation: drawDivideFigure 1s 600ms linear forwards;
+            animation: drawDivideFigure 1s 600ms linear forwards;
+        }
+
+        & .modal-content {
+            -webkit-animation: fadeIn 400ms 1600ms forwards;
+            animation: fadeIn 400ms 1600ms forwards;
+        }
+    }
 }
 
 .hide-modal-on-main {
-  & .main-menu-button.selected {
-    -webkit-animation: slideBack 600ms;
-    animation: slideBack 600ms;
-  }
+    & .main-menu-button.selected {
+        -webkit-animation: slideBack 600ms;
+        animation: slideBack 600ms;
+    }
 
-  & .bg-shadow {
-    -webkit-animation: fadeOut 600ms forwards;
-    animation: fadeOut 600ms forwards;
-  }
+    & .bg-shadow {
+        -webkit-animation: fadeOut 600ms forwards;
+        animation: fadeOut 600ms forwards;
+    }
 }

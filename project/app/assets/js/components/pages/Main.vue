@@ -16,8 +16,8 @@
             <button
                     v-for="button in getMainButtonList"
                     :class="[
-                    'main-menu-button',
-                    button.class,
+                        'main-menu-button',
+                        button.class,
                         {
                             'selected': buttonIsSelected(button)
                         }
@@ -26,47 +26,20 @@
                     @click="toggleButtonAction(button)"
                     :key="`button-${button.id}`"
             >
-                <md-icon v-if="needToShowModal">clear</md-icon>
+                <md-icon class="clear-button">clear</md-icon>
 
-                <i v-if="!needToShowModal"
-                   :class="[
+                <i :class="[
+                       'icon-button',
                        'fi sub-color',
                        button.icon
                    ]"
                 ></i>
             </button>
 
-            <div class="bg-shadow"
-                 v-show="selectedButton"
-            ></div>
-
-            <div :class="[
-                     'main-modal',
-                     {
-                         'show-modal': selectedButton,
-                     }
-                 ]"
-            >
-                <div class="modal-content">
-
-                </div>
-                <svg class="modal-svg-box"
-                     ref="modalSvg"
-                     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                     xmlns:svg="http://www.w3.org/2000/svg"
-                     xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                     :viewBox="modalSvg && getViewBoxSize()"
-                     version="1.1"
-                >
-                    <path :class="[
-                              'border-path',
-                          ]"
-                          stroke-width="2"
-                          fill="none"
-                          :d="drawLine()"/>
-                </svg>
-            </div>
+            <game-modal
+                    :componentView="modalComponent"
+                    :showModal="needToShowModal"
+            />
         </div>
     </section>
 </template>
@@ -85,6 +58,7 @@
         data() {
             return {
                 bgImage: null,
+                modalComponent: null,
                 selectedButton: null,
                 needToShowModal: false,
                 needToHideModal: false,
@@ -97,13 +71,6 @@
                 'translation',
                 'getMainButtonList',
             ]),
-
-            modalSvg: {
-                get() {
-                    return this.$refs.modalSvg || null;
-                },
-                cache: false
-            }
         },
 
         methods: {
@@ -124,20 +91,16 @@
                     return;
                 }
 
-                this.showModalAction();
+
                 this.selectedButton = button.id;
+                this.modalComponent = button.component;
+                this.showModalAction();
             },
 
             showModalAction() {
-              // let borderPath = this.modalSvg.querySelector('.border-path');
+                // let borderPath = this.modalSvg.querySelector('.border-path');
 
-              document.documentElement.style.setProperty('--svg-width', `${this.modalSvg.clientWidth}px`);
-              document.documentElement.style.setProperty('--svg-height', `${this.modalSvg.clientHeight}px`);
 
-              console.log('getProperties', {
-                width: document.documentElement.style.getPropertyValue('--svg-width'),
-                height: document.documentElement.style.getPropertyValue('--svg-height')
-              });
                 this.needToShowModal = true;
                 this.needToHideModal = false;
             },
@@ -154,29 +117,11 @@
             buttonIsSelected(button) {
                 return this.selectedButton === button.id;
             },
+        },
 
-            getViewBoxSize() {
-                if (!this.modalSvg) {
-                    return '0 0 0 0';
-                }
-
-                let width = this.modalSvg.clientWidth;
-                let height = this.modalSvg.clientHeight;
-
-                return `0 0 ${width} ${height}`;
-            },
-
-            drawLine() {
-                if (!this.modalSvg) {
-                    return '';
-                }
-
-                let width = this.modalSvg.clientWidth;
-                let height = this.modalSvg.clientHeight;
-
-                return `M${width},0 0,0 0,${height} ${width},${height}z`;
-            },
-        }
+        components: {
+            gameModal: require("../GameModal.vue"),
+        },
     }
 </script>
 

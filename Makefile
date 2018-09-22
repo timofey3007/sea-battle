@@ -6,6 +6,9 @@ start:
 restart:
 	docker-compose exec nodejs pm2 restart APP
 
+watch:
+	docker-compose exec nodejs npm run watch
+
 stop:
 	docker-compose down
 

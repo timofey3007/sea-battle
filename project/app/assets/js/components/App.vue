@@ -34,7 +34,7 @@
                 'readyToStart',
                 'translation',
                 'getSoundPath'
-            ])
+            ]),
         },
 
         methods: {
