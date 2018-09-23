@@ -5,6 +5,7 @@
     "singleGame": "Single play",
     "multiplayerGame": "Online",
     "onlineGame": "Online",
-    "lanGame": "Lan"
+    "lanGame": "Lan",
+    "back": "Go back"
   }
 }

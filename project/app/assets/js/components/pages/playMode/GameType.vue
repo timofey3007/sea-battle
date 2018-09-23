@@ -1,24 +1,22 @@
 <template>
-    <transition name="fade">
-        <div class="md-layout flex-vertical md-alignment-center">
-            <div class="md-layout-item md-medium-size-100">
-                <md-button
-                        class="md-raised md-primary"
-                        disabled
-                >
-                    {{ _.get(translation, "buttons.singleGame") }}
-                </md-button>
-            </div>
-            <div class="md-layout-item md-medium-size-100">
-                <md-button
-                        class="md-raised md-primary"
-                        @click="$router.push({ name: 'multiplayer-type'})"
-                >
-                    {{ _.get(translation, "buttons.multiplayerGame") }}
-                </md-button>
-            </div>
+    <div class="md-layout flex-vertical md-alignment-center">
+        <div class="md-layout-item md-medium-size-100">
+            <md-button
+                    class="md-raised md-primary"
+                    disabled
+            >
+                {{ _.get(translation, "buttons.singleGame") }}
+            </md-button>
         </div>
-    </transition>
+        <div class="md-layout-item md-medium-size-100">
+            <md-button
+                    class="md-raised md-primary"
+                    @click="_goNext('multiplayer-type')"
+            >
+                {{ _.get(translation, "buttons.multiplayerGame") }}
+            </md-button>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -36,6 +34,12 @@
         methods: {
             showAction() {
 
+            },
+
+            _goNext(routeName) {
+                this.$emit('routeTransitionNameChanged', 'slide-right');
+
+                this.$router.push({name: routeName});
             }
         }
     }

@@ -32,5 +32,11 @@
     visibility: hidden;
     display: flex;
     align-items: center;
+
+    & .back-button {
+        position: absolute;
+        bottom: 50px;
+        left: 50px;
+    }
 }
 

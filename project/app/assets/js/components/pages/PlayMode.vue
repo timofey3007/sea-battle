@@ -1,5 +1,15 @@
 <template>
-    <router-view/>
+    <transition
+            :name="transitionName"
+            :duration="{
+                enter: '600ms',
+                leave: '600ms',
+            }"
+    >
+        <router-view
+                @routeTransitionNameChanged="changeRouteAnimation"
+        />
+    </transition>
 </template>
 
 <script>
@@ -11,11 +21,23 @@
 
         router,
 
+        data() {
+            return {
+                transitionName: 'fade'
+            };
+        },
+
         computed: {
             ...mapGetters([
                 'translation',
             ]),
-        }
+        },
+
+        methods: {
+            changeRouteAnimation(animationName) {
+                this.transitionName = animationName;
+            }
+        },
     }
 </script>
 

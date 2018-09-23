@@ -224,6 +224,7 @@
     }
 }
 
+
 /* --- draw quadrant figure --- */
 @keyframes drawDivideFigure {
     $halfModalLen: calc(var(--svg-width) + var(--svg-height));
@@ -238,4 +239,24 @@
         visibility: visible;
         stroke-dasharray: $modalLen;
     }
+}
+
+@-webkit-keyframes drawDivideFigure {
+    $halfModalLen: calc(var(--svg-width) + var(--svg-height));
+    $modalLen: calc(2 * #{$halfModalLen});
+
+    from {
+        visibility: visible;
+        stroke-dasharray: 0, $modalLen;
+        stroke-dashoffset: -180%;
+    }
+    to {
+        visibility: visible;
+        stroke-dasharray: $modalLen;
+    }
+}
+
+/* --- draw quadrant figure --- */
+@keyframes slide-right {
+
 }
