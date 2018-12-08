@@ -1,6 +1,6 @@
 <template>
-    <div class="md-layout flex-vertical md-alignment-center">
-        <div class="md-layout-item md-medium-size-100">
+    <div class="full-layout flex-vertical layout-center">
+        <div>
             <md-button
                     class="md-raised md-primary"
                     disabled
@@ -8,10 +8,11 @@
                 {{ _.get(translation, "buttons.singleGame") }}
             </md-button>
         </div>
-        <div class="md-layout-item md-medium-size-100">
+
+        <div>
             <md-button
-                    class="md-raised md-primary"
-                    @click="_goNext('multiplayer-type')"
+                class="md-raised md-primary"
+                @click="goToMultiplayer()"
             >
                 {{ _.get(translation, "buttons.multiplayerGame") }}
             </md-button>
@@ -36,11 +37,21 @@
 
             },
 
-            _goNext(routeName) {
-                this.$emit('routeTransitionNameChanged', 'slide-right');
+            goToSingle() {
+                this.$emit('routeChangeTransitionName', 'game-type');
+                this.$emit('routeChangeTransitionDuration', 600);
 
-                this.$router.push({name: routeName});
-            }
+                this.$router.push({name: 'single'});
+            },
+
+            goToMultiplayer() {
+                this.$emit('routeChangeTransitionName', 'game-type-to-multiplayer');
+                this.$emit('routeChangeTransitionDuration', 800);
+
+                this.$router.push({
+                    name: 'multiplayer-game',
+                });
+            },
         }
     }
 </script>

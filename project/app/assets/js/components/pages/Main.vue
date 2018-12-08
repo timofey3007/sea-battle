@@ -1,30 +1,30 @@
 <template>
     <section
-            class="full-height full-bg-size md-layout"
-            :style="{
+        class="full-height full-bg-size md-layout"
+        :style="{
             backgroundImage: bgImage && `url('${bgImage}')`,
         }"
     >
-        <div :class="[
+        <div
+            :class="[
                 {
                     'show-modal-on-main': needToShowModal,
                     'hide-modal-on-main': needToHideModal,
                 }
             ]"
-
         >
             <button
-                    v-for="button in getMainButtonList"
-                    :class="[
-                        'main-menu-button',
-                        button.class,
-                        {
-                            'selected': buttonIsSelected(button)
-                        }
-                    ]"
-                    :style="button.position"
-                    @click="toggleButtonAction(button)"
-                    :key="`button-${button.id}`"
+                v-for="button in getMainButtonList"
+                :class="[
+                    'main-menu-button',
+                    button.class,
+                    {
+                        'selected': buttonIsSelected(button)
+                    }
+                ]"
+                :style="button.position"
+                @click="toggleButtonAction(button)"
+                :key="`button-${button.id}`"
             >
                 <md-icon class="clear-button">clear</md-icon>
 
@@ -37,8 +37,8 @@
             </button>
 
             <game-modal
-                    :componentView="modalComponent"
-                    :showModal="needToShowModal"
+                :componentView="modalComponent"
+                :showModal="needToShowModal"
             />
         </div>
     </section>
@@ -90,7 +90,6 @@
 
                     return;
                 }
-
 
                 this.selectedButton = button.id;
                 this.modalComponent = button.component;

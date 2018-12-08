@@ -1,13 +1,11 @@
 <template>
     <transition
             :name="transitionName"
-            :duration="{
-                enter: '600ms',
-                leave: '600ms',
-            }"
+            :duration="transitionDuration || 600"
     >
         <router-view
-                @routeTransitionNameChanged="changeRouteAnimation"
+            @routeChangeTransitionName="changeRouteAnimation"
+            @routeChangeTransitionDuration="changeRouteDuration"
         />
     </transition>
 </template>
@@ -21,9 +19,16 @@
 
         router,
 
+        mounted() {
+           this.$router.push({
+               name: 'game-type',
+           });
+        },
+
         data() {
             return {
-                transitionName: 'fade'
+                transitionName: null,
+                transitionDuration: 600,
             };
         },
 
@@ -36,11 +41,11 @@
         methods: {
             changeRouteAnimation(animationName) {
                 this.transitionName = animationName;
-            }
+            },
+
+            changeRouteDuration(animationDuration) {
+                this.transitionDuration = animationDuration;
+            },
         },
     }
 </script>
-
-<style scoped>
-
-</style>

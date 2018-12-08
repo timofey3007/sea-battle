@@ -34,6 +34,18 @@
     flex-direction: column;
 }
 
+.layout-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.full-layout {
+    display: flex;
+    flex: 1;
+    justify-self: stretch;
+    align-self: stretch;
+}
+
 /** --- colors --- */
 .sub-color {
     color: $sub-color;

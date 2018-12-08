@@ -13,7 +13,7 @@
         >
             <div class="modal-content">
                 <component
-                        :is="componentView"
+                    :is="componentView"
                 ></component>
             </div>
             <svg class="modal-svg-box"

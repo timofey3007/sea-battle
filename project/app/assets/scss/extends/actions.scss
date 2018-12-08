@@ -36,3 +36,35 @@
         animation: fadeOut 600ms forwards;
     }
 }
+
+/* --- From game type to multiplayer game action --- */
+.game-type-to-multiplayer-enter-active {
+    @include absolute_layout;
+
+    opacity: 0;
+
+    -webkit-animation: fadeIn 400ms 400ms forwards;
+    animation: fadeIn 400ms 400ms forwards;
+}
+.game-type-to-multiplayer-leave-active {
+    @include absolute_layout;
+
+    -webkit-animation: slide-left reverse 400ms forwards;
+    animation: slide-left reverse 400ms forwards;
+}
+
+/* --- From multiplayer game to game type action --- */
+.multiplayer-to-game-type-enter-active {
+    @include absolute_layout;
+
+    visibility: hidden;
+
+    -webkit-animation: slide-left 400ms 400ms forwards;
+    animation: slide-left 400ms 400ms forwards;
+}
+.multiplayer-to-game-type-leave-active {
+    @include absolute_layout;
+
+    -webkit-animation: fadeOut 400ms forwards;
+    animation: fadeOut 400ms forwards;
+}

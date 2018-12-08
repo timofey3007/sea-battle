@@ -5,12 +5,7 @@ export default new VueRouter({
 
     routes: [
         {
-            path: '/multiplayer',
-            name: "multiplayer-type",
-            component: require("./MultiplayerType.vue")
-        },
-        {
-            path: '/multiplayer/:type',
+            path: '/multiplayer/:type?',
             name: "multiplayer-game",
             component: require("./MultiplayerGame.vue")
         },

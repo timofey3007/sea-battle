@@ -2320,6 +2320,27 @@ Creation date: 12/09/2018 21:48
           flex-direction: column;
 }
 
+.layout-center {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.full-layout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  justify-self: stretch;
+  -ms-flex-item-align: stretch;
+      align-self: stretch;
+}
+
 /** --- colors --- */
 
 .sub-color {
@@ -2508,6 +2529,19 @@ Creation date: 12/09/2018 21:48
 
 /* --- draw quadrant figure --- */
 
+@keyframes drawDivideFigure {
+  from {
+    visibility: visible;
+    stroke-dasharray: 0, calc(2 * calc(var(--svg-width) + var(--svg-height)));
+    stroke-dashoffset: -180%;
+  }
+
+  to {
+    visibility: visible;
+    stroke-dasharray: calc(2 * calc(var(--svg-width) + var(--svg-height)));
+  }
+}
+
 @-webkit-keyframes drawDivideFigure {
   from {
     visibility: visible;
@@ -2521,16 +2555,59 @@ Creation date: 12/09/2018 21:48
   }
 }
 
-@keyframes drawDivideFigure {
+/* --- sliding right --- */
+
+@keyframes slide-right {
   from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
     visibility: visible;
-    stroke-dasharray: 0, calc(2 * calc(var(--svg-width) + var(--svg-height)));
-    stroke-dashoffset: -180%;
   }
 
   to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@-webkit-keyframes slide-right {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
     visibility: visible;
-    stroke-dasharray: calc(2 * calc(var(--svg-width) + var(--svg-height)));
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* --- sliding left --- */
+
+@keyframes slide-left {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@-webkit-keyframes slide-left {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -2570,6 +2647,17 @@ Creation date: 12/09/2018 21:48
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  overflow: hidden;
+}
+
+.modal-content .back-button {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+}
+
+.selected-bg {
+  background-color: #416570;
 }
 
 /* --- menu select button --- */
@@ -2682,5 +2770,51 @@ Creation date: 12/09/2018 21:48
 .hide-modal-on-main .bg-shadow {
   -webkit-animation: fadeOut 600ms forwards;
   animation: fadeOut 600ms forwards;
+}
+
+/* --- From game type to multiplayer game action --- */
+
+.game-type-to-multiplayer-enter-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  -webkit-animation: fadeIn 400ms 400ms forwards;
+  animation: fadeIn 400ms 400ms forwards;
+}
+
+.game-type-to-multiplayer-leave-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-animation: slide-left reverse 400ms forwards;
+  animation: slide-left reverse 400ms forwards;
+}
+
+/* --- From multiplayer game to game type action --- */
+
+.multiplayer-to-game-type-enter-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  visibility: hidden;
+  -webkit-animation: slide-left 400ms 400ms forwards;
+  animation: slide-left 400ms 400ms forwards;
+}
+
+.multiplayer-to-game-type-leave-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-animation: fadeOut 400ms forwards;
+  animation: fadeOut 400ms forwards;
 }
 

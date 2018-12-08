@@ -1,35 +1,126 @@
 <template>
-    <md-tabs md-sync-route>
-        <md-tab id="tab-home" md-label="Home" to="/components/tabs/home">
-            Home Tab
-        </md-tab>
+    <div class="full-layout">
+        <md-app class="md-layout">
+            <md-app-toolbar class="md-primary">
+                <span class="md-title">
+                    {{ getTitle() }}
+                </span>
+            </md-app-toolbar>
 
-        <md-tab id="tab-pages" md-label="Pages" to="/components/tabs/pages">
-            Pages tab
-            <p>Unde provident nemo reiciendis officia, possimus repellendus. Facere dignissimos dicta quis rem.
-                Aliquam aspernatur dolor atque nisi id deserunt laudantium quam repellat.</p>
-        </md-tab>
+            <md-app-drawer
+                md-permanent="full"
+                class="drawler-block"
+            >
+                <md-toolbar class="md-transparent" md-elevation="0"></md-toolbar>
 
-        <md-tab id="tab-posts" md-label="Posts" to="/components/tabs/posts">
-            Posts tab
-            <p>Qui, voluptas repellat impedit ducimus earum at ad architecto consectetur perferendis aspernatur iste
-                amet ex tempora animi, illum tenetur quae assumenda iusto.</p>
-        </md-tab>
+                <md-list>
+                    <md-list-item
+                        :disabled="true"
+                        :selected="routeIsSelected('online')"
+                        @click="goToModal('online')"
+                    >
+                        <md-icon
+                            :disabled="true"
+                        >move_to_inbox</md-icon>
+                        <span class="md-list-item-text">
+                            {{ _.get(translation, "buttons.onlineGame") }}
+                        </span>
+                    </md-list-item>
 
-        <md-tab id="tab-favorites" md-label="Favorites" to="/components/tabs/favorites">
-            Favorites tab
-            <p>Maiores, dolorum. Beatae, optio tempore fuga odit aperiam velit, consequuntur magni inventore
-                sapiente alias sequi odio qui harum dolorem sunt quasi corporis.</p>
-        </md-tab>
-    </md-tabs>
+                    <md-list-item
+                        :class="{
+                            'selected-bg': routeIsSelected('lan')
+                        }"
+                        @click="goToModal('lan')"
+                    >
+                        <md-icon>send</md-icon>
+                        <span class="md-list-item-text">
+                            {{ _.get(translation, "buttons.lanGame") }}
+                        </span>
+                    </md-list-item>
+                </md-list>
+
+                <md-button
+                    :title="_.get(translation, 'buttons.back')"
+                    class="back-button md-icon-button md-primary md-raised"
+                    @click="goBack()"
+                >
+                    <md-icon>keyboard_backspace</md-icon>
+                </md-button>
+            </md-app-drawer>
+
+            <md-app-content>
+
+                <p v-if="!selectedRoute">
+                    {{ _.get(translation, 'text.emptyMultiplayerType') }}
+                </p>
+            </md-app-content>
+        </md-app>
+    </div>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
-        name: "multiplayer-game"
+        name: "multiplayer-game",
+
+        computed: {
+            ...mapGetters([
+                'translation',
+            ]),
+
+            selectedRoute() {
+                return _.get(this.$route, 'params.type', '');
+            },
+        },
+
+        data() {
+            return {
+
+            };
+        },
+
+        methods: {
+            routeIsSelected(route) {
+                return route === this.selectedRoute;
+            },
+
+            getTitle() {
+                return _.get(
+                    this.translation,
+                    `titles.${this.selectedRoute}Game`,
+                    _.get(this.translation, 'titles.multiplayerGame')
+                );
+            },
+
+            goBack() {
+                this.$emit('routeChangeTransitionName', 'multiplayer-to-game-type');
+                this.$emit('routeChangeTransitionDuration', 800);
+
+                this.$router.push({name: 'game-type'});
+            },
+
+            goToModal(type) {
+                if (this.routeIsSelected(type)) {
+                    return;
+                }
+
+                this.$emit('routeChangeTransitionDuration', 0);
+
+                this.$router.push({
+                    name: 'multiplayer-game',
+                    params: {
+                        type,
+                    },
+                });
+            },
+        },
     }
 </script>
 
 <style scoped>
-
+    .drawler-block {
+        width: 200px;
+    }
 </style>

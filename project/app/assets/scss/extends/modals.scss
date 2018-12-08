@@ -32,11 +32,20 @@
     visibility: hidden;
     display: flex;
     align-items: center;
+    overflow: hidden;
 
     & .back-button {
         position: absolute;
         bottom: 50px;
         left: 50px;
     }
+}
+
+.modal-multiplayer-bg {
+
+}
+
+.selected-bg {
+    background-color: $main-bg-color;
 }
 
