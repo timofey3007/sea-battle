@@ -3,7 +3,10 @@
   "titles": {
     "multiplayerGame": "Multiplayer",
     "onlineGame": "Network game",
-    "lanGame": "Lan game"
+    "lanGame": "Lan game",
+    "serverList": "Server list",
+    "serverName": "Title",
+    "serverUser": "User"
   },
   "buttons": {
     "readyToStart": "GO",
@@ -11,9 +14,11 @@
     "multiplayerGame": "Multiplayer",
     "onlineGame": "Online",
     "lanGame": "Lan",
-    "back": "Go back"
+    "back": "Go back",
+    "reload": "Reload"
   },
   "text": {
-    "emptyMultiplayerType": "Please, select on of the types from the left sidebar."
+    "emptyMultiplayerType": "Please, select on of the types from the left sidebar.",
+    "emptyServerList": "No servers found."
   }
 }

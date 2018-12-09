@@ -21,7 +21,7 @@
                     >
                         <md-icon
                             :disabled="true"
-                        >move_to_inbox</md-icon>
+                        >language</md-icon>
                         <span class="md-list-item-text">
                             {{ _.get(translation, "buttons.onlineGame") }}
                         </span>
@@ -33,7 +33,7 @@
                         }"
                         @click="goToModal('lan')"
                     >
-                        <md-icon>send</md-icon>
+                        <md-icon>wifi</md-icon>
                         <span class="md-list-item-text">
                             {{ _.get(translation, "buttons.lanGame") }}
                         </span>
@@ -50,6 +50,12 @@
             </md-app-drawer>
 
             <md-app-content>
+                <div
+                    v-if="routeFacadeIsAvailable"
+                    :is="gameContentComponent"
+                >
+
+                </div>
 
                 <p v-if="!selectedRoute">
                     {{ _.get(translation, 'text.emptyMultiplayerType') }}
@@ -61,6 +67,8 @@
 
 <script>
     import {mapGetters} from "vuex";
+    import GameFacade from "../../../contracts/MultiplayerGame";
+    import LanGameFacade from "../../../facades/multiplayerGame/LanGameFacade";
 
     export default {
         name: "multiplayer-game",
@@ -73,11 +81,20 @@
             selectedRoute() {
                 return _.get(this.$route, 'params.type', '');
             },
+
+            routeFacadeIsAvailable() {
+                return this.gameFacade instanceof GameFacade;
+            },
+
+            serverList() {
+                return this.gameFacade.getAvailableServerList();
+            }
         },
 
         data() {
             return {
-
+                gameFacade: null,
+                gameContentComponent: null,
             };
         },
 
@@ -87,11 +104,17 @@
             },
 
             getTitle() {
-                return _.get(
+                let title = _.get(
                     this.translation,
                     `titles.${this.selectedRoute}Game`,
                     _.get(this.translation, 'titles.multiplayerGame')
                 );
+
+                if (this.routeFacadeIsAvailable) {
+                    title += ` (ip - ${this.gameFacade.getLocalIp()})`;
+                }
+
+                return title;
             },
 
             goBack() {
@@ -115,7 +138,33 @@
                     },
                 });
             },
+
+            _syncGameFacade(route) {
+                switch (route) {
+                    case 'lan':
+                        this.gameFacade = new LanGameFacade();
+                        this.gameContentComponent = 'lanGame';
+                        break;
+                    default:
+                        this.gameFacade = null;
+                        this.gameContentComponent = null;
+                        return null;
+                }
+            }
         },
+
+        watch: {
+            selectedRoute(route, prevRoute) {
+                if (route && route !== prevRoute) {
+                    this._syncGameFacade(route);
+                }
+            }
+        },
+
+        components: {
+            lanGame: require('./MultiplayerType/LanGame'),
+            onlineGame: require('./MultiplayerType/OnlineGame'),
+        }
     }
 </script>
 

@@ -1,4 +1,4 @@
-class MultiplayerGame {
+export default class MultiplayerGame {
     createServer() {
         throw new Error('Implement the createServer method.');
     }
