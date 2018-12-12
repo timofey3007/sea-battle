@@ -6,6 +6,7 @@
 const app = require('../app');
 const debug = require('debug')('see-batle:server');
 const http = require('http');
+const ExpressPeerServer = require('peer').ExpressPeerServer;
 
 /**
  * Get port from environment and store in Express.
@@ -17,6 +18,22 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
+
+/**
+ * Create peer connection between 2 users
+ */
+const peerServer = ExpressPeerServer(server, {
+    debug: process.env.NODE_ENV === 'development',
+    proxied: true,
+    port: 9500,
+    // TODO After adding ssl to project
+    // ssl: {
+    //     key: fs.readFileSync('./../certificates/key.pem', 'utf8'),
+    //     cert: fs.readFileSync('./../certificates/cert.pem', 'utf8')
+    // }
+});
+
+app.use('/peer-js', peerServer);
 
 /**
  * Listen on provided port, on all network interfaces.
