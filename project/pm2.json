@@ -1,4 +1,10 @@
 {
   "name": "APP",
-  "script": "./app/www"
+  "script": "./app/www",
+  "env": {
+    "NODE_ENV": "development",
+    "NODE_PORT": 3000,
+    "PEER_PORT": 9500,
+    "DATABASE_URL": "db:27017"
+  }
 }

@@ -65,7 +65,6 @@
           randomString(12),
           {
             host: 'localhost',
-            port: 9500,
             path: '/peer-js'
           }
         );

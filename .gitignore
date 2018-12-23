@@ -2,7 +2,7 @@
 .idea
 .vcode
 /node_modules
-/docker
+/docker/logs
 
 .DS_Store
 .env
