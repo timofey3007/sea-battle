@@ -6,8 +6,10 @@ services:
     restart: always
     ports:
       - 80:${NODE_PORT}
+      - ${PEER_PORT}:${PEER_PORT}
     environment:
       - PORT=${NODE_PORT}
+      - PEER_PORT=${PEER_PORT}
       - NODE_ENV=${NODE_ENV}
       - DATABASE_URL=db:27017
       - MONGODB_NAME=${MONGODB_NAME}

@@ -15,7 +15,10 @@
     "onlineGame": "Online",
     "lanGame": "Lan",
     "back": "Go back",
-    "reload": "Reload"
+    "reload": "Reload",
+    "or": "or",
+    "serverId": "Connect to server via ID",
+    "createServer": "Create server"
   },
   "text": {
     "emptyMultiplayerType": "Please, select on of the types from the left sidebar.",

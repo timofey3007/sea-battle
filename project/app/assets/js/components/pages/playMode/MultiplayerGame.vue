@@ -49,7 +49,7 @@
                 </md-button>
             </md-app-drawer>
 
-            <md-app-content>
+            <md-app-content class="multiplayer-container">
                 <div
                     v-if="routeFacadeIsAvailable"
                     :is="gameContentComponent"
@@ -171,5 +171,9 @@
 <style scoped>
     .drawler-block {
         width: 200px;
+    }
+
+    .multiplayer-container {
+        display: flex;
     }
 </style>
