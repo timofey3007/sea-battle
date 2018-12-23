@@ -1,70 +1,90 @@
 .show-modal-on-main {
-    & .main-menu-button.selected {
-        -webkit-animation: slideToTRCorner 600ms forwards;
-        animation: slideToTRCorner 600ms forwards;
+  & .main-menu-button.selected {
+    -webkit-animation: slideToTRCorner 600ms forwards;
+    animation: slideToTRCorner 600ms forwards;
+  }
+
+  & .bg-shadow {
+    -webkit-animation: fadeIn 600ms forwards;
+    animation: fadeIn 600ms forwards;
+  }
+
+  & .show-modal {
+    & .modal-svg-box .border-path {
+      stroke: $border-sub-color;
+      visibility: hidden;
+
+      -webkit-animation: drawDivideFigure 1s 600ms linear forwards;
+      animation: drawDivideFigure 1s 600ms linear forwards;
     }
 
-    & .bg-shadow {
-        -webkit-animation: fadeIn 600ms forwards;
-        animation: fadeIn 600ms forwards;
+    & .modal-content {
+      -webkit-animation: fadeIn 400ms 1600ms forwards;
+      animation: fadeIn 400ms 1600ms forwards;
     }
-
-    & .show-modal {
-        & .modal-svg-box .border-path {
-            stroke: $border-sub-color;
-            visibility: hidden;
-
-            -webkit-animation: drawDivideFigure 1s 600ms linear forwards;
-            animation: drawDivideFigure 1s 600ms linear forwards;
-        }
-
-        & .modal-content {
-            -webkit-animation: fadeIn 400ms 1600ms forwards;
-            animation: fadeIn 400ms 1600ms forwards;
-        }
-    }
+  }
 }
 
 .hide-modal-on-main {
-    & .main-menu-button.selected {
-        -webkit-animation: slideBack 600ms;
-        animation: slideBack 600ms;
-    }
+  & .main-menu-button.selected {
+    -webkit-animation: slideBack 600ms;
+    animation: slideBack 600ms;
+  }
 
-    & .bg-shadow {
-        -webkit-animation: fadeOut 600ms forwards;
-        animation: fadeOut 600ms forwards;
-    }
+  & .bg-shadow {
+    -webkit-animation: fadeOut 600ms forwards;
+    animation: fadeOut 600ms forwards;
+  }
 }
 
 /* --- From game type to multiplayer game action --- */
 .game-type-to-multiplayer-enter-active {
-    @include absolute_layout;
+  @include absolute_layout;
 
-    opacity: 0;
+  opacity: 0;
 
-    -webkit-animation: fadeIn 400ms 400ms forwards;
-    animation: fadeIn 400ms 400ms forwards;
+  -webkit-animation: fadeIn 400ms 400ms forwards;
+  animation: fadeIn 400ms 400ms forwards;
 }
-.game-type-to-multiplayer-leave-active {
-    @include absolute_layout;
 
-    -webkit-animation: slide-left reverse 400ms forwards;
-    animation: slide-left reverse 400ms forwards;
+.game-type-to-multiplayer-leave-active {
+  @include absolute_layout;
+
+  -webkit-animation: slide-left reverse 400ms forwards;
+  animation: slide-left reverse 400ms forwards;
 }
 
 /* --- From multiplayer game to game type action --- */
 .multiplayer-to-game-type-enter-active {
-    @include absolute_layout;
+  @include absolute_layout;
 
-    visibility: hidden;
+  visibility: hidden;
 
-    -webkit-animation: slide-left 400ms 400ms forwards;
-    animation: slide-left 400ms 400ms forwards;
+  -webkit-animation: slide-left 400ms 400ms forwards;
+  animation: slide-left 400ms 400ms forwards;
 }
-.multiplayer-to-game-type-leave-active {
-    @include absolute_layout;
 
+.multiplayer-to-game-type-leave-active {
+  @include absolute_layout;
+
+  -webkit-animation: fadeOut 400ms forwards;
+  animation: fadeOut 400ms forwards;
+}
+
+/* --- User create lan server --- */
+.create-lan-server-leave-active {
+  & .lab-container-server-input {
+    -webkit-animation: slide-up reverse 400ms forwards;
+    animation: slide-up reverse 400ms forwards;
+  }
+
+  & .lab-container-divider {
     -webkit-animation: fadeOut 400ms forwards;
     animation: fadeOut 400ms forwards;
+  }
+
+  & .lab-container-server-input {
+    -webkit-animation: slide-down reverse 400ms forwards;
+    animation: slide-down reverse 400ms forwards;
+  }
 }

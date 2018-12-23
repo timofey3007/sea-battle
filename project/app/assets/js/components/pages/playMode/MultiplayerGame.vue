@@ -8,30 +8,31 @@
             </md-app-toolbar>
 
             <md-app-drawer
-                md-permanent="full"
-                class="drawler-block"
+                    md-permanent="full"
+                    class="drawler-block"
             >
                 <md-toolbar class="md-transparent" md-elevation="0"></md-toolbar>
 
                 <md-list>
                     <md-list-item
-                        :disabled="true"
-                        :selected="routeIsSelected('online')"
-                        @click="goToModal('online')"
+                            :disabled="true"
+                            :selected="routeIsSelected('online')"
+                            @click="goToModal('online')"
                     >
                         <md-icon
-                            :disabled="true"
-                        >language</md-icon>
+                                :disabled="true"
+                        >language
+                        </md-icon>
                         <span class="md-list-item-text">
                             {{ _.get(translation, "buttons.onlineGame") }}
                         </span>
                     </md-list-item>
 
                     <md-list-item
-                        :class="{
+                            :class="{
                             'selected-bg': routeIsSelected('lan')
                         }"
-                        @click="goToModal('lan')"
+                            @click="goToModal('lan')"
                     >
                         <md-icon>wifi</md-icon>
                         <span class="md-list-item-text">
@@ -41,21 +42,16 @@
                 </md-list>
 
                 <md-button
-                    :title="_.get(translation, 'buttons.back')"
-                    class="back-button md-icon-button md-primary md-raised"
-                    @click="goBack()"
+                        :title="_.get(translation, 'buttons.back')"
+                        class="back-button md-icon-button md-primary md-raised"
+                        @click="goBack()"
                 >
                     <md-icon>keyboard_backspace</md-icon>
                 </md-button>
             </md-app-drawer>
 
             <md-app-content class="multiplayer-container">
-                <div
-                    v-if="routeFacadeIsAvailable"
-                    :is="gameContentComponent"
-                >
-
-                </div>
+                <div :is="gameContentComponent"></div>
 
                 <p v-if="!selectedRoute">
                     {{ _.get(translation, 'text.emptyMultiplayerType') }}
@@ -66,106 +62,88 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import GameFacade from "../../../contracts/MultiplayerGame";
-    import LanGameFacade from "../../../facades/multiplayerGame/LanGameFacade";
+  import {mapGetters} from "vuex";
 
-    export default {
-        name: "multiplayer-game",
+  export default {
+    name: "multiplayer-game",
 
-        computed: {
-            ...mapGetters([
-                'translation',
-            ]),
+    computed: {
+      ...mapGetters([
+        'translation',
+      ]),
 
-            selectedRoute() {
-                return _.get(this.$route, 'params.type', '');
-            },
+      selectedRoute() {
+        return _.get(this.$route, 'params.type', '');
+      },
+    },
 
-            routeFacadeIsAvailable() {
-                return this.gameFacade instanceof GameFacade;
-            },
+    data() {
+      return {
+        gameFacade: null,
+        gameContentComponent: null,
+      };
+    },
 
-            serverList() {
-                return this.gameFacade.getAvailableServerList();
-            }
-        },
+    methods: {
+      routeIsSelected(route) {
+        return route === this.selectedRoute;
+      },
 
-        data() {
-            return {
-                gameFacade: null,
-                gameContentComponent: null,
-            };
-        },
+      getTitle() {
+        return _.get(
+          this.translation,
+          `titles.${this.selectedRoute}Game`,
+          _.get(this.translation, 'titles.multiplayerGame')
+        );
+      },
 
-        methods: {
-            routeIsSelected(route) {
-                return route === this.selectedRoute;
-            },
+      goBack() {
+        this.$emit('routeChangeTransitionName', 'multiplayer-to-game-type');
+        this.$emit('routeChangeTransitionDuration', 800);
 
-            getTitle() {
-                let title = _.get(
-                    this.translation,
-                    `titles.${this.selectedRoute}Game`,
-                    _.get(this.translation, 'titles.multiplayerGame')
-                );
+        this.$router.push({name: 'game-type'});
+      },
 
-                if (this.routeFacadeIsAvailable) {
-                    title += ` (ip - ${this.gameFacade.getLocalIp()})`;
-                }
-
-                return title;
-            },
-
-            goBack() {
-                this.$emit('routeChangeTransitionName', 'multiplayer-to-game-type');
-                this.$emit('routeChangeTransitionDuration', 800);
-
-                this.$router.push({name: 'game-type'});
-            },
-
-            goToModal(type) {
-                if (this.routeIsSelected(type)) {
-                    return;
-                }
-
-                this.$emit('routeChangeTransitionDuration', 0);
-
-                this.$router.push({
-                    name: 'multiplayer-game',
-                    params: {
-                        type,
-                    },
-                });
-            },
-
-            _syncGameFacade(route) {
-                switch (route) {
-                    case 'lan':
-                        this.gameFacade = new LanGameFacade();
-                        this.gameContentComponent = 'lanGame';
-                        break;
-                    default:
-                        this.gameFacade = null;
-                        this.gameContentComponent = null;
-                        return null;
-                }
-            }
-        },
-
-        watch: {
-            selectedRoute(route, prevRoute) {
-                if (route && route !== prevRoute) {
-                    this._syncGameFacade(route);
-                }
-            }
-        },
-
-        components: {
-            lanGame: require('./MultiplayerType/LanGame'),
-            onlineGame: require('./MultiplayerType/OnlineGame'),
+      goToModal(type) {
+        if (this.routeIsSelected(type)) {
+          return;
         }
+
+        this.$emit('routeChangeTransitionDuration', 0);
+
+        this.$router.push({
+          name: 'multiplayer-game',
+          params: {
+            type,
+          },
+        });
+      },
+
+      _syncGameFacade(route) {
+        switch (route) {
+          case 'lan':
+            this.gameContentComponent = 'lanGame';
+            break;
+          default:
+            this.gameContentComponent = null;
+            return null;
+        }
+      }
+    },
+
+    watch: {
+      selectedRoute(route, prevRoute) {
+        if (route && route !== prevRoute) {
+          this._syncGameFacade(route);
+        }
+      }
+    },
+
+    components: {
+      lanGame: require('./MultiplayerType/LanGame'),
+      onlineGame: require('./MultiplayerType/OnlineGame'),
     }
+  }
 </script>
 
 <style scoped>

@@ -1,29 +1,38 @@
 <template>
     <div class="lan-container">
-        <md-content class="lab-container-block">
-            <md-field>
-                <label>{{ _.get(translation, 'buttons.serverId') }}</label>
-                <md-input
-                        v-model="peerServerId"
-                        maxlength="12"
-                />
-            </md-field>
+        <transition
+            duration="800"
+            :name="transitionName"
+        >
+            <md-content
+                    v-if="!isServer"
+                    class="lab-container-block"
+            >
+                <md-field class="lab-container-server-input">
+                    <label>{{ _.get(translation, 'buttons.serverId') }}</label>
+                    <md-input
+                            v-model="peerServerId"
+                            maxlength="12"
+                    />
+                </md-field>
 
-            <div>{{ _.get(translation, 'buttons.or') }}</div>
+                <div
+                    class="lab-container-divider"
+                >{{ _.get(translation, 'buttons.or') }}</div>
 
-            <md-button
-                    class="md-raised md-primary"
-                    @click="createServer"
-            >{{ _.get(translation, 'buttons.createServer') }}
-            </md-button>
-        </md-content>
+                <md-button
+                        class="lab-container-button md-raised md-primary"
+                        @click="createServer"
+                >
+                    {{ _.get(translation, 'buttons.createServer') }}
+                </md-button>
+            </md-content>
+        </transition>
     </div>
 </template>
 
 <script>
-  import {mapGetters} from "vuex";
-  import Peer from 'peerjs';
-  import {randomString} from '../../../../facades/Helper';
+  import {mapGetters, mapActions} from "vuex";
 
   export default {
     name: "LanGame",
@@ -38,18 +47,32 @@
     computed: {
       ...mapGetters([
         'translation',
+        'getPeerServer',
       ]),
+
+      isServer() {
+        return this.getPeerServer.getServerStatus();
+      },
+    },
+
+    created() {
+      this.createPeerServer();
     },
 
     data() {
       return {
-        search: '',
+        transitionName: '',
+        peer: null,
         serverId: '',
         peerServerId: '',
       };
     },
 
     methods: {
+      ...mapActions([
+        'createPeerServer',
+      ]),
+
       searchOnTable() {
         return null;
       },
@@ -59,15 +82,8 @@
       },
 
       createServer() {
-        const env = process.env;
-        // TODO Port and path need to be replaced to env variables
-        const peer = new Peer(
-          randomString(12),
-          {
-            host: 'localhost',
-            path: '/peer-js'
-          }
-        );
+        this.transitionName = 'create-lan-server';
+        this.getPeerServer.enableServer();
       },
     },
   }

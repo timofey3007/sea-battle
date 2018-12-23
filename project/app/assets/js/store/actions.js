@@ -1,60 +1,77 @@
-import axios from "axios";
-import FilesLoader from "../facades/queue/FilesLoader";
+import axios from 'axios';
+import FilesLoader from '../facades/queue/FilesLoader';
+import Peer from 'peerjs';
+import LanGameFacade from '../facades/multiplayerGame/LanGameFacade';
+import {
+  randomString,
+} from '../facades/Helper';
 
 export default {
-    loadModule({commit, getters, dispatch}, module) {
-        if (typeof module === 'string') {
-            module = getters.getModule(module);
-        }
+  loadModule({commit, getters, dispatch}, module) {
+    if (typeof module === 'string') {
+      module = getters.getModule(module);
+    }
 
-        if (typeof module !== "object" || !module.url) {
-            commit('appGlobalFail');
-        }
+    if (typeof module !== "object" || !module.url) {
+      commit('appGlobalFail');
+    }
 
-        axios.get(module.url)
-            .then(response => {
-                module.storage = response.data;
-                module.loaded = true;
-
-                if (typeof module.callback === 'function') {
-                    module.loaded = false;
-                    module.callback(dispatch, module);
-                }
-
-                commit('moduleUpdate', module);
-            })
-            .catch(error => commit('appGlobalFail'));
-    },
-
-    enableModule({commit, getters}, moduleName) {
-        let module = getters.getModule(moduleName);
-
+    axios.get(module.url)
+      .then(response => {
+        module.storage = response.data;
         module.loaded = true;
 
-        commit('moduleUpdate', module);
-    },
-
-    loadContent({commit, getters, dispatch}, module) {
-        let files = module.storage;
-
-        if (!Array.isArray(files)) {
-            commit('appGlobalFail');
+        if (typeof module.callback === 'function') {
+          module.loaded = false;
+          module.callback(dispatch, module);
         }
 
-        const fileLoader = new FilesLoader(getters.localDatabase, files);
+        commit('moduleUpdate', module);
+      })
+      .catch(error => commit('appGlobalFail'));
+  },
 
-        fileLoader.runQueue()
-            .then(() => {
-                dispatch("enableModule", "content");
-            })
-            .catch(() => commit('appGlobalFail'));
-    },
+  enableModule({commit, getters}, moduleName) {
+    let module = getters.getModule(moduleName);
 
-    playMusic({commit}, sound) {
-        commit("saveSound", sound);
-    },
+    module.loaded = true;
 
-    startApplication({commit}) {
-        commit("toggleApplicationReady", true);
-    },
+    commit('moduleUpdate', module);
+  },
+
+  loadContent({commit, getters, dispatch}, module) {
+    let files = module.storage;
+
+    if (!Array.isArray(files)) {
+      commit('appGlobalFail');
+    }
+
+    const fileLoader = new FilesLoader(getters.localDatabase, files);
+
+    fileLoader.runQueue()
+      .then(() => {
+        dispatch("enableModule", "content");
+      })
+      .catch(() => commit('appGlobalFail'));
+  },
+
+  playMusic({commit}, sound) {
+    commit("saveSound", sound);
+  },
+
+  startApplication({commit}) {
+    commit("toggleApplicationReady", true);
+  },
+
+  createPeerServer({commit}) {
+    const peerServer = new Peer(
+      randomString(12),
+      {
+        host: 'localhost',
+        path: '/peer-js'
+      }
+    );
+
+    commit('savePeerServer', new LanGameFacade(peerServer));
+  }
 };
