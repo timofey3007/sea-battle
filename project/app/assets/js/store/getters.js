@@ -23,6 +23,10 @@ export default {
         return null;
     },
 
+    getMainButtonList: state => {
+        return state.mainButtonList;
+    },
+
     getModule: ({modules}) => moduleName => {
         return _.find(modules, {'name': moduleName});
     },

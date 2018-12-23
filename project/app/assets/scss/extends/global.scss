@@ -17,3 +17,36 @@
 .full-bg-size {
     background-size: cover;
 }
+
+.bg-shadow {
+    position: fixed;
+    z-index: 90;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: $shadow-bg;
+}
+
+.flex-vertical {
+    flex-direction: column;
+}
+
+.layout-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.full-layout {
+    display: flex;
+    flex: 1;
+    justify-self: stretch;
+    align-self: stretch;
+}
+
+/** --- colors --- */
+.sub-color {
+    color: $sub-color;
+}

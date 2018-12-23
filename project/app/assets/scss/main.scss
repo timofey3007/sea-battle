@@ -1,6 +1,15 @@
 @import "extends/variables";
-@import "extends/global";
+@import "extends/mixins";
+
+/* --- vue-material --- */
 @import "~vue-material/dist/vue-material.min.css";
-@import "~vue-material/dist/theme/black-green-light.css";
+@import "./theme/sea-battle-theme";
+
 /* --- font-icons --- */
 @import "./icons/flat-icons/flaticon";
+/* --- application --- */
+@import "extends/global";
+@import "extends/animation";
+@import "extends/modals";
+@import "extends/buttons";
+@import "extends/actions";

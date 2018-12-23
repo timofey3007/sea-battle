@@ -45,6 +45,28 @@ export default new Vuex.Store({
                 },
             },
         ],
+        mainButtonList: [
+            {
+                id: 'start',
+                icon: 'flaticon-boat',
+                class: 'big-menu-button position-start',
+                component: "playMode",
+                position: {
+                    left: "50%",
+                    top: "50%",
+                },
+            },
+            {
+                id: 'settings',
+                icon: 'flaticon-adventure-1',
+                class: 'position-settings',
+                component: "settings",
+                position: {
+                    left: "80%",
+                    top: "60%",
+                },
+            },
+        ],
         readyToStart: false,
         soundPath: null,
     },

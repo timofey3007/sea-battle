@@ -1,6 +1,27 @@
 {
   "appName": "See Battle",
+  "titles": {
+    "multiplayerGame": "Multiplayer",
+    "onlineGame": "Network game",
+    "lanGame": "Lan game",
+    "serverList": "Server list",
+    "serverName": "Title",
+    "serverUser": "User"
+  },
   "buttons": {
-    "readyToStart": "GO"
+    "readyToStart": "GO",
+    "singleGame": "Single play",
+    "multiplayerGame": "Multiplayer",
+    "onlineGame": "Online",
+    "lanGame": "Lan",
+    "back": "Go back",
+    "reload": "Reload",
+    "or": "or",
+    "serverId": "Connect to server via ID",
+    "createServer": "Create server"
+  },
+  "text": {
+    "emptyMultiplayerType": "Please, select on of the types from the left sidebar.",
+    "emptyServerList": "No servers found."
   }
 }
