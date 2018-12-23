@@ -30,3 +30,6 @@ public/css
 public/js
 public/fonts
 public/images
+
+# files under dockerize
+pm2.json

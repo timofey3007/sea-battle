@@ -1,11 +1,12 @@
 version: "3"
 services:
   nodejs:
-    image: keymetrics/pm2:10-stretch
+    build: ./docker/builds/node
     container_name: nodejs
     restart: always
     ports:
       - 80:${NODE_PORT}
+      - 443:${NODE_PORT}
       - ${PEER_PORT}:${PEER_PORT}
     environment:
       - PORT=${NODE_PORT}

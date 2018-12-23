@@ -1,0 +1,9 @@
+{
+  "name": "{{ default .Env.PROJECT_NAME "APP" }}",
+  "script": "./app/www",
+  "env": {
+    "NODE_ENV": "{{ default .Env.NODE_ENV "development" }}",
+    "NODE_PORT": {{ default .Env.NODE_PORT "3000" }},
+    "DATABASE_URL": "{{ default .Env.DATABASE_URL "" }}"
+  }
+}

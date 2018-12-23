@@ -11,7 +11,7 @@ const ExpressPeerServer = require('peer').ExpressPeerServer;
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.NODE_PORT || '3000');
 app.set('port', port);
 
 /**
@@ -24,8 +24,6 @@ const server = http.createServer(app);
  */
 const peerServer = ExpressPeerServer(server, {
   debug: process.env.NODE_ENV === 'development',
-  proxied: true,
-  port: process.env.PEER_PORT || port,
   // TODO After adding ssl to project
   // ssl: {
   //     key: fs.readFileSync('./../certificates/key.pem', 'utf8'),
@@ -37,6 +35,25 @@ app.use('/peer-js', peerServer);
 
 peerServer.on('connection', function(id) {
   console.log(`has connected - ${id}`);
+});
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  let err = new Error('Not Found');
+
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
 
 /**
