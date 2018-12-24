@@ -39,7 +39,7 @@ export default {
     return soundPath;
   },
 
-  getPeerServer({peerServer}) {
+  peerServer({peerServer}) {
     return peerServer;
   },
 };

@@ -6,7 +6,10 @@
     "lanGame": "Lan game",
     "serverList": "Server list",
     "serverName": "Title",
-    "serverUser": "User"
+    "serverUser": "User",
+    "lanServerId": "Your server id",
+    "lanServerShutDown": "Shut down the server",
+    "copied": "Copied"
   },
   "buttons": {
     "readyToStart": "GO",

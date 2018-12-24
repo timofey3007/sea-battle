@@ -378,3 +378,93 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+
+/* --- zooming in --- */
+@-webkit-keyframes zoomIn {
+  from {
+    visibility: visible;
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    visibility: visible;
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+
+/* --- zooming out --- */
+@-webkit-keyframes zoomOut {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+
+/* --- fade screwing --- */
+@-webkit-keyframes screwing {
+  from {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes screwing {
+  from {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(720deg);
+  }
+}

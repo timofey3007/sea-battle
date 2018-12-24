@@ -72,7 +72,10 @@
 }
 
 /* --- User create lan server --- */
-.create-lan-server-leave-active {
+.lan-server-leave-active {
+  position: absolute;
+  z-index: 4;
+
   & .lab-container-server-input {
     -webkit-animation: slide-up reverse 400ms forwards;
     animation: slide-up reverse 400ms forwards;
@@ -83,8 +86,57 @@
     animation: fadeOut 400ms forwards;
   }
 
-  & .lab-container-server-input {
+  & .lab-container-button {
     -webkit-animation: slide-down reverse 400ms forwards;
     animation: slide-down reverse 400ms forwards;
+  }
+
+  & .lan-server-id-block {
+    -webkit-animation: zoomOut 400ms forwards;
+    animation: zoomOut 400ms forwards;
+  }
+
+  & .lan-server-shut-down {
+    -webkit-animation: screwing 400ms forwards reverse;
+    animation: screwing 400ms forwards reverse;
+  }
+}
+
+.lan-server-enter-active {
+  position: absolute;
+  z-index: 5;
+
+  & .lab-container-server-input {
+    visibility: hidden;
+
+    -webkit-animation: slide-up 400ms 400ms forwards;
+    animation: slide-up 400ms 400ms forwards;
+  }
+
+  & .lab-container-divider {
+    visibility: hidden;
+    -webkit-animation: fadeIn 400ms 400ms forwards;
+    animation: fadeIn 400ms 400ms forwards;
+  }
+
+  & .lab-container-button {
+    visibility: hidden;
+
+    -webkit-animation: slide-down 400ms 400ms forwards;
+    animation: slide-down 400ms 400ms forwards;
+  }
+
+  & .lan-server-id-block {
+    visibility: hidden;
+
+    -webkit-animation: zoomIn 400ms 400ms;
+    animation: zoomIn 400ms 400ms;
+  }
+
+  & .lan-server-shut-down {
+    visibility: hidden;
+
+    -webkit-animation: screwing 400ms forwards 400ms;
+    animation: screwing 400ms forwards 400ms;
   }
 }

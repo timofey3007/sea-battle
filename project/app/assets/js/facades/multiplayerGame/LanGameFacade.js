@@ -58,6 +58,11 @@ export default class LanGameFacade extends MultiplayerGame {
     return this;
   }
 
+  getServerId() {
+    ;debugger
+    return this.peer.id;
+  }
+
   getServerStatus() {
     return this.isServer;
   }
@@ -67,7 +72,7 @@ export default class LanGameFacade extends MultiplayerGame {
   }
 
   getServerId() {
-
+    return this.peer.id;
   }
 
   _initServerActions() {
