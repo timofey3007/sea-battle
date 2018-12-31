@@ -25,6 +25,7 @@
   },
   "text": {
     "emptyMultiplayerType": "Please, select on of the types from the left sidebar.",
-    "emptyServerList": "No servers found."
+    "emptyServerList": "No servers found.",
+    "peer-unavailable": "Could not connect to server 'fgtrhrhferte'"
   }
 }

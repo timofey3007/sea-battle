@@ -140,3 +140,8 @@
     animation: screwing 400ms forwards 400ms;
   }
 }
+
+.rounding-action {
+  -webkit-animation: rounding 800ms infinite;
+  animation: rounding 800ms infinite;
+}

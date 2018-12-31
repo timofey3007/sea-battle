@@ -63,15 +63,35 @@ export default {
     commit("toggleApplicationReady", true);
   },
 
-  createPeerServer({commit}) {
+  createPeerServer({commit, getters, dispatch}) {
     const peerServer = new Peer(
       randomString(12),
       {
-        host: 'localhost',
+        host: getters.getServerHost,
         path: '/peer-js'
       }
     );
+    const peerFacade = new LanGameFacade(peerServer);
+    peerFacade.subscribeOn('error', error => {
+      dispatch('setServerSearchingStatus', false);
+      dispatch('addToShackBar', {
+        description: _.get(getters.translation, `text.${error.type}`),
+        type: 'error',
+      })
+    });
 
     commit('savePeerServer', new LanGameFacade(peerServer));
-  }
+  },
+
+  addToShackBar({commit}, message) {
+    commit('addToShackBar', message);
+  },
+
+  removeFirstFromShackBar({commit}) {
+    commit('removeFirstFromShackBar');
+  },
+
+  setServerSearchingStatus({commit}, status) {
+    commit('setServerSearchingStatus', status);
+  },
 };

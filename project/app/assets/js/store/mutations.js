@@ -39,4 +39,16 @@ export default {
   savePeerServer(state, peerServer) {
     state.peerServer = peerServer;
   },
+
+  addToShackBar(state, message) {
+    state.snackBarQueue.push(message);
+  },
+
+  removeFirstFromShackBar(state) {
+    state.snackBarQueue.shift();
+  },
+
+  setServerSearchingStatus(state, serverStatus) {
+    state.serverIsSearching = serverStatus;
+  },
 };

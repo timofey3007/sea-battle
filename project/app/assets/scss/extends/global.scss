@@ -1,52 +1,57 @@
 * {
-    font-family: 'Roboto';
+  font-family: 'Roboto';
 }
 
 #app {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .full-height {
-    height: 100%;
+  height: 100%;
 }
 
 .full-bg-size {
-    background-size: cover;
+  background-size: cover;
 }
 
 .bg-shadow {
-    position: fixed;
-    z-index: 90;
+  position: fixed;
+  z-index: 90;
 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-    background-color: $shadow-bg;
+  background-color: $shadow-bg;
 }
 
 .flex-vertical {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .layout-center {
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .full-layout {
-    display: flex;
-    flex: 1;
-    justify-self: stretch;
-    align-self: stretch;
+  display: flex;
+  flex: 1;
+  justify-self: stretch;
+  align-self: stretch;
+}
+
+.md-primary.md-snackbar {
+  background: $main-bg-color;
+  color: $sub-color;
 }
 
 /** --- colors --- */
 .sub-color {
-    color: $sub-color;
+  color: $sub-color;
 }

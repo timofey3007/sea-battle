@@ -14,38 +14,43 @@
                 :file="getSoundPath"
                 :autoPlay="true"
         />
+
+        <snack-bar />
     </div>
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
-    import VueAudio from 'vue-audio';
+  import {mapGetters, mapActions} from 'vuex';
+  import vueAudio from 'vue-audio';
+  import appLoading from './AppLoading';
+  import snackBar from './SnackBar';
 
-    export default {
-        name: 'App',
+  export default {
+    name: 'App',
 
-        mounted() {
-            this.$store.dispatch("loadModule", "settings");
-        },
+    mounted() {
+      this.$store.dispatch("loadModule", "settings");
+    },
 
-        computed: {
-            ...mapGetters([
-                'appIsLoad',
-                'readyToStart',
-                'translation',
-                'getSoundPath'
-            ]),
-        },
+    computed: {
+      ...mapGetters([
+        'appIsLoad',
+        'readyToStart',
+        'translation',
+        'getSoundPath'
+      ]),
+    },
 
-        methods: {
-            ...mapActions([])
-        },
+    methods: {
+      ...mapActions([])
+    },
 
-        components: {
-            'app-loading': require('./AppLoading.vue'),
-            'vue-audio': VueAudio,
-        }
+    components: {
+      appLoading,
+      vueAudio,
+      snackBar,
     }
+  }
 </script>
 
 <style lang="scss" scoped>

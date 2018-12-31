@@ -17,6 +17,7 @@ export default new Vuex.Store({
   state: {
     hasGlobalError: false,
     locale: "en",
+    snackBarQueue: [],
     modules: [
       {
         name: 'settings',
@@ -70,6 +71,7 @@ export default new Vuex.Store({
     readyToStart: false,
     soundPath: null,
     peerServer: null,
+    serverIsSearching: false,
   },
 
   getters,

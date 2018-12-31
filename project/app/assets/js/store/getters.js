@@ -1,4 +1,7 @@
 import FileStorage from "../facades/FileStorage";
+import {
+  BASE_URL,
+} from '../config';
 
 const contentStorage = new FileStorage('file-content');
 
@@ -42,4 +45,18 @@ export default {
   peerServer({peerServer}) {
     return peerServer;
   },
+
+  snackBarMessages({snackBarQueue}) {
+    return snackBarQueue;
+  },
+
+  serverIsSearching({serverIsSearching}) {
+    return serverIsSearching;
+  },
+
+  getServerHost() {
+    const {1: host} = BASE_URL.split('//');
+
+    return host;
+  }
 };

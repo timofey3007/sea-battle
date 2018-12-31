@@ -12,38 +12,11 @@ export default class LanGameFacade extends MultiplayerGame {
     this.peer = peer;
     this.isServer = false;
     this.isBusy = false;
+    this.subscribeTypes = {
+      error: [],
+    };
 
     this._initServerActions();
-
-    // TODO Need to be refactored
-    this.connection = null;
-    this.localIp = null;
-    this.server = null;
-    this.ipRegExp = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g;
-
-    const RTCPeerConnection = window.RTCPeerConnection
-      || window.mozRTCPeerConnection
-      || window.webkitRTCPeerConnection;
-    const noop = () => {
-    };
-
-    this.connection = new RTCPeerConnection({
-      iceServers: []
-    });
-
-    this.connection.createDataChannel('');
-    this.connection.createOffer(
-      this.connection.setLocalDescription.bind(this.connection),
-      noop
-    );
-    this.connection.onicecandidate = ice => {
-      const candidateRow = _.get(ice, 'candidate.candidate', '');
-      const localExec = this.ipRegExp.exec(candidateRow);
-
-      if (_.has(localExec, '1')) {
-        this.localIp = localExec[1];
-      }
-    };
   }
 
   enableServer() {
@@ -59,7 +32,6 @@ export default class LanGameFacade extends MultiplayerGame {
   }
 
   getServerId() {
-    ;debugger
     return this.peer.id;
   }
 
@@ -77,12 +49,17 @@ export default class LanGameFacade extends MultiplayerGame {
 
   _initServerActions() {
     this.peer.on('connection', conn => {
+
       if (!this.isServer || this.isBusy) {
         return false;
       }
 
 
       ;debugger
+    });
+
+    this.peer.on('error', error => {
+      this.sendErrorsToSubscribers(error);
     });
   }
 
@@ -95,12 +72,7 @@ export default class LanGameFacade extends MultiplayerGame {
       return;
     }
 
-
     return this;
-  }
-
-  getLocalIp() {
-    return this.localIp;
   }
 
   getAvailableServerList() {
@@ -109,5 +81,19 @@ export default class LanGameFacade extends MultiplayerGame {
 
   _hasServer() {
     return false;
+  }
+
+  subscribeOn(type, action) {
+    if (typeof action !== 'function' || !Array.isArray(this.subscribeTypes[type])) {
+      return;
+    }
+
+    this.subscribeTypes[type].push(action);
+
+    return this;
+  }
+
+  sendErrorsToSubscribers(error) {
+    this.subscribeTypes.error.forEach(action => action(error));
   }
 }

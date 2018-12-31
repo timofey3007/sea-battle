@@ -468,3 +468,29 @@
     transform: rotate(720deg);
   }
 }
+
+
+/* --- rounding --- */
+@keyframes rounding {
+  from {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+
+  to {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
+}
+
+@-webkit-keyframes rounding {
+  from {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+
+  to {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
+}
